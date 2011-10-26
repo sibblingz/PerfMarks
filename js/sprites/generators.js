@@ -1,5 +1,6 @@
-define([ 'sprites/generators/scale' ], function (scale) {
+define([ 'sprites/generators/scale', 'sprites/generators/translate' ], function (scale, translate) {
     return {
-        scale: scale
+        scale: scale,
+        translate: translate
     };
 });
