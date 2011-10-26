@@ -1,16 +1,25 @@
-define([ 'tests/performance' ], function (performance) {
-    performance(function (err, results) {
-        if (err) {
-            console.error(err);
+define([ 'tests/performance', 'testDom' ], function (performance, testDom) {
+    var testNameToDomId = {
+        audioLatency: 'audio-latency'
+    };
+
+    function testDone(err, name, results) {
+        if (!testNameToDomId.hasOwnProperty(name)) {
+            console.warn('Unknown test name: ' + name);
             return;
         }
+        var domId = testNameToDomId[name];
 
-    }, function (err, name, results) {
+        testDom.endTest(domId, !err && results.pass, results);
+    }
+
+    function allTestsDone(err, results) {
         if (err) {
             console.error(err);
-            return;
         }
 
-        console.log(name, results);
-    });
+        // Do nothing
+    }
+
+    performance(allTestsDone, testDone);
 });

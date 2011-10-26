@@ -1,4 +1,6 @@
 define([ 'util/ensureCallback', 'util/cacheBust' ], function (ensureCallback, cacheBust) {
+    var MAX_LATENCY = 20;
+
     function getPlayLatency(audio, callback) {
         callback = ensureCallback(callback);
 
@@ -48,7 +50,7 @@ define([ 'util/ensureCallback', 'util/cacheBust' ], function (ensureCallback, ca
                     }
 
                     callback(null, {
-                        pass: true,
+                        pass: coldTime <= MAX_LATENCY && warmTime <= MAX_LATENCY,
                         coldLatency: coldTime,
                         warmLatency: warmTime
                     });

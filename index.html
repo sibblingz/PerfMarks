@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 <title>HTML5 Game Benchmarks</title>
+<style>
+.test.pass .name {
+    font-weight: bold;
+    color: #008800;
+}
+
+.test.fail .name {
+    font-weight: bold;
+    color: #CC0000;
+}
+
+.test .results {
+    display: none;
+}
+
+.test.pass .results, .test.fail .results {
+    display: block;
+}
+</style>
 
 <h1>HTML5 Game Benchmarks</h1>
 <p>Basic benchmarks to measure HTML5 performance and support for game related features.<p>
@@ -7,21 +26,25 @@
 <h2>Feature Tests</h2>
 <p>Yes/no, sometimes subfeatures</p>
 <ul>
-<li>Hardware-Accelerated CSS Transforms</li>
-<li>Basic SVG</li>
-<li>SVG Fonts</li>
-<li>SVG Colour Matrices</li>
-<li>SVG Masking</li>
-<li>Audio</li>
+<li>Hardware-Accelerated CSS Transforms
+<li>Basic SVG
+<li>SVG Fonts
+<li>SVG Colour Matrices
+<li>SVG Masking
+<li>Audio
 </ul>
 
 <h2>Performance Tests</h2>
 <p>DOM score, render score</p>
 <ul>
-<li>CSS Transforms</li>
-<li>SVG Transforms</li>
-<li>Canvas drawImage</li>
-<li>Audio latency</li>
+<li>CSS Transforms
+<li>SVG Transforms
+<li>Canvas drawImage
+<li id="audio-latency" class="test"><span class="name">Audio latency</span>
+    <ul class="results">
+        <li>Cold play latency: <span data-property="coldLatency"></span>ms
+        <li>Warm play latency: <span data-property="warmLatency"></span>ms
+    </ul>
 </ul>
 
 <script src="js/unrequire.js"></script>
