@@ -1,6 +1,7 @@
 define([ 'tests/performance', 'testDom' ], function (performance, testDom) {
     var testNameToDomId = {
-        audioLatency: 'audio-latency'
+        audioLatency: 'audio-latency',
+        cssTransforms: 'css-transforms'
     };
 
     function testDone(err, name, results) {
