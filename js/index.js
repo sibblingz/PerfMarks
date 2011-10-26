@@ -5,6 +5,12 @@ define([ 'tests/performance' ], function (performance) {
             return;
         }
 
-        console.log(JSON.stringify(results));
+    }, function (err, name, results) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        console.log(name, results);
     });
 });

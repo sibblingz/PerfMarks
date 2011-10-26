@@ -1,5 +1,7 @@
-define([ ], function () {
+define([ 'util/ensureCallback' ], function (ensureCallback) {
     function getPlayLatency(audio, callback) {
+        callback = ensureCallback(callback);
+
         var startTime;
 
         function update() {
@@ -20,6 +22,8 @@ define([ ], function () {
     }
 
     return function audioLatency(callback) {
+        callback = ensureCallback(callback);
+
         if (!window.Audio) {
             callback(new Error('Audio not supported'));
             return;
