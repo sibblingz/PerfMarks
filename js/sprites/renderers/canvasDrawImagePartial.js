@@ -1,4 +1,4 @@
-define([ ], function () {
+define([ 'util/ensureCallback' ], function (ensureCallback) {
     function RenderContext(element, frameData) {
         this.element = element;
         this.frameData = frameData;
@@ -13,10 +13,17 @@ define([ ], function () {
         this.canvas.style.position = 'absolute';
         this.canvas.style.left = '0';
         this.canvas.style.top = '0';
-        document.body.appendChild(this.canvas);
 
         this.previousTransforms = null;
     }
+
+    RenderContext.prototype.load = function load(callback) {
+        callback = ensureCallback(callback);
+
+        document.body.appendChild(this.canvas);
+
+        callback(null);
+    };
 
     RenderContext.prototype.unload = function unload() {
         if (this.canvas.parentNode) {

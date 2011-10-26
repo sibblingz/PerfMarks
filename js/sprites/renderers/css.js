@@ -1,4 +1,4 @@
-define([ ], function () {
+define([ 'util/ensureCallback' ], function (ensureCallback) {
     // Feature detection based off of
     // http://andrew-hoyer.com/experiments/rain/
     // Public domain
@@ -51,7 +51,6 @@ define([ ], function () {
             el.style.position = 'absolute';
             el.style.left = '0';
             el.style.top = '0';
-            document.body.appendChild(el);
             return el;
         });
 
@@ -64,6 +63,16 @@ define([ ], function () {
             });
         });
     }
+
+    RenderContext.prototype.load = function load(callback) {
+        callback = ensureCallback(callback);
+
+        this.elements.forEach(function (el) {
+            document.body.appendChild(el);
+        });
+
+        callback(null);
+    };
 
     RenderContext.prototype.unload = function unload() {
         this.elements.forEach(function (el) {

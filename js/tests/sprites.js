@@ -47,40 +47,44 @@ define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util
         var frames = generateFrames(generator, FRAME_COUNT, OBJECT_COUNT);
         var renderContext = renderer(element, frames);
 
-        var startTime = null;
-        var jsTime = 0;
+        renderContext.load(function (err) {
+            if (err) return callback(err);
 
-        var currentFrame = 0;
-        function frame() {
-            if (currentFrame === FRAME_COUNT) {
-                var endTime = Date.now();
-                renderContext.unload();
-                callback(null, {
-                    total: endTime - startTime,
-                    js: jsTime
-                });
-                return false;
+            var startTime = null;
+            var jsTime = 0;
+
+            var currentFrame = 0;
+            function frame() {
+                if (currentFrame === FRAME_COUNT) {
+                    var endTime = Date.now();
+                    renderContext.unload();
+                    callback(null, {
+                        total: endTime - startTime,
+                        js: jsTime
+                    });
+                    return false;
+                }
+
+                var jsStartTime = Date.now();
+                renderContext.renderFrame(currentFrame);
+                var jsEndTime = Date.now();
+                jsTime += jsEndTime - jsStartTime;
+
+                ++currentFrame;
+                return true;
             }
 
-            var jsStartTime = Date.now();
-            renderContext.renderFrame(currentFrame);
-            var jsEndTime = Date.now();
-            jsTime += jsEndTime - jsStartTime;
+            var intervalId = setInterval(function () {
+                if (startTime === null) {
+                    startTime = Date.now();
+                }
 
-            ++currentFrame;
-            return true;
-        }
-
-        var intervalId = setInterval(function () {
-            if (startTime === null) {
-                startTime = Date.now();
-            }
-
-            var cont = frame();
-            if (!cont) {
-                clearInterval(intervalId);
-            }
-        }, 0);
+                var cont = frame();
+                if (!cont) {
+                    clearInterval(intervalId);
+                }
+            }, 0);
+        });
     }
 
     function runTestCombinations(generators, renderers, testCallback, callback) {
