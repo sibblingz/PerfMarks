@@ -1,4 +1,4 @@
-define([ 'tests/audioLatency', 'tests/cssTransforms', 'util/ensureCallback', 'util/chainAsync' ], function (audioLatency, cssTransforms, ensureCallback, chainAsync) {
+define([ 'tests/audioLatency', 'tests/sprites', 'util/ensureCallback', 'util/chainAsync' ], function (audioLatency, sprites, ensureCallback, chainAsync) {
     return function performance(callback, stepCallback) {
         callback = ensureCallback(callback);
 
@@ -23,10 +23,10 @@ define([ 'tests/audioLatency', 'tests/cssTransforms', 'util/ensureCallback', 'ut
                 });
             },
             function (next) {
-                cssTransforms(function (err, results) {
+                sprites(function (err, results) {
                     if (err) return fail(err);
 
-                    step('cssTransforms', results);
+                    step('sprites', results);
                     next();
                 });
             },

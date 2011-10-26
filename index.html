@@ -37,16 +37,25 @@
 <h2>Performance Tests</h2>
 <p>DOM score, render score</p>
 <ul>
-<li id="css-transforms" class="test"><span class="name">CSS Transforms</span>
-    <ul class="results">
-        <li><tt>&lt;img&gt;</tt> element: <span data-property="imageTime"></span>ms (<span data-property="imageDomTime"></span>ms DOM time)
-    </ul>
-<li>SVG Transforms
-<li>Canvas drawImage
+<li id="sprites" class="test"><span class="name">Sprites</span>
+    <table class="results">
+        <thead>
+        <tr><th>Technique</th><th>Test type</th><th>JS time (ms)</th><th>Total time (ms)</th></tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <th><tt>&lt;img&gt;</tt> + CSS transforms</th>
+            <th>Scaling</th>
+            <td data-property="image.css.scale.js"></td>
+            <td data-property="image.css.scale.total"></td>
+        </tr>
+        </tbody>
+    </table>
 <li id="audio-latency" class="test"><span class="name">Audio latency</span>
     <ul class="results">
-        <li>Cold play latency: <span data-property="coldLatency"></span>ms
-        <li>Warm play latency: <span data-property="warmLatency"></span>ms
+    <li>Cold play latency: <span data-property="coldLatency"></span>ms
+    <li>Warm play latency: <span data-property="warmLatency"></span>ms
     </ul>
 </ul>
 

@@ -19,13 +19,26 @@ define([ ], function () {
                 return null;
             }
 
-            Object.keys(results).forEach(function (name) {
-                var slot = findSlot(name);
-
-                if (slot) {
-                    slot.textContent = results[name];
+            function fillSlots(name, value) {
+                if (name === 'pass') {
+                    return;
                 }
-            });
+
+                if (typeof value === 'object' && value) {
+                    Object.keys(value).forEach(function (subName) {
+                        fillSlots(name ? name + '.' + subName : subName, value[subName]);
+                    });
+                } else {
+                    var slot = findSlot(name);
+                    if (slot) {
+                        slot.textContent = value;
+                    } else {
+                        console.warn('Could not find slot ' + name + ' for ' + domId, value);
+                    }
+                }
+            }
+
+            fillSlots('', results);
 
             el.classList.remove('pass');
             el.classList.remove('fail');
