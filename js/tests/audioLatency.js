@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback' ], function (ensureCallback) {
+define([ 'util/ensureCallback', 'util/cacheBust' ], function (ensureCallback, cacheBust) {
     function getPlayLatency(audio, callback) {
         callback = ensureCallback(callback);
 
@@ -61,7 +61,7 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         }
 
         var source = document.createElement('source');
-        source.src = 'assets/silence.wav';
+        source.src = cacheBust.url('assets/silence.wav');
         source.addEventListener('error', onError, false);
 
         audio.addEventListener('canplaythrough', onCanPlayThrough, false);
