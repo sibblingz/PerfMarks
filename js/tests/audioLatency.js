@@ -68,5 +68,10 @@ define([ 'util/ensureCallback', 'util/cacheBust' ], function (ensureCallback, ca
         audio.addEventListener('error', onError, false);
         audio.appendChild(source);
         audio.play();
+
+        // Work around Webkit bug (present in Chrome <= 15, Safari <= 5, at
+        // time of writing) where the browser will decide it doesn't /need/
+        // to download all these pesky audio files.
+        window['audio__' + Math.random()] = audio;
     };
 });
