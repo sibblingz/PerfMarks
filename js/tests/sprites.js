@@ -18,29 +18,6 @@ define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util
         return frames;
     }
 
-    function makeImages(count, src, callback) {
-        callback = ensureCallback(callback);
-
-        var loadedCount = 0;
-        var images = [ ];
-
-        function imageLoaded() {
-            ++loadedCount;
-            if (loadedCount === count) {
-                callback(null, images);
-            }
-        }
-
-        var i;
-        for (i = 0; i < count; ++i) {
-            var image = new window.Image();
-            images.push(image);
-
-            image.onload = imageLoaded;
-            image.src = src;
-        }
-    }
-
     function runDomTest(element, generator, renderer, callback) {
         callback = ensureCallback(callback);
 
@@ -85,39 +62,6 @@ define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util
                 }
             }, 0);
         });
-    }
-
-    function runTestCombinations(generators, renderers, testCallback, callback) {
-        callback = ensureCallback(callback);
-
-        var combinations = [ ];
-        Object.keys(generators).forEach(function (generatorName) {
-            Object.keys(renderers).forEach(function (rendererName) {
-                combinations.push([ generatorName, rendererName ]);
-            });
-        });
-
-        var results = { };
-
-        function next() {
-            var combination = combinations.shift();
-            if (!combination) {
-                callback(null, results);
-                return;
-            }
-
-            var combinationKey = combination[1] + '.' + combination[0];
-            var generator = generators[combination[0]];
-            var renderer = renderers[combination[1]];
-
-        }
-
-        next();
-    }
-
-    function getTestCombinations(generators, renderers) {
-        var combinations = [ ];
-
     }
 
     function makeImageTests(src) {
