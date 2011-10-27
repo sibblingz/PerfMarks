@@ -1,6 +1,6 @@
 define([ ], function () {
-    return function chainAsync(/* functions */) {
-        var functions = Array.prototype.slice.call(arguments);
+    return function chainAsync(functions) {
+        functions = functions.slice();
 
         function next() {
             if (functions.length === 0) {

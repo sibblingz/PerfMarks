@@ -1,5 +1,5 @@
 define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync' ], function (generators, renderers, ensureCallback, chainAsync) {
-    var FRAME_COUNT = 100;
+    var FRAME_COUNT = 10;
     var OBJECT_COUNT = 50;
 
     function generateFrames(generator, frameCount, objectCount) {
@@ -110,45 +110,50 @@ define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util
             var generator = generators[combination[0]];
             var renderer = renderers[combination[1]];
 
-            testCallback(generator, renderer, function (err, testResults) {
-                if (err) return callback(err);
-
-                results[combinationKey] = testResults;
-                next();
-            });
         }
 
         next();
     }
 
-    return function cssTransforms(callback) {
-        callback = ensureCallback(callback);
+    function getTestCombinations(generators, renderers) {
+        var combinations = [ ];
 
-        function testRunner(tester /* extra args */) {
-            var extraArgs = Array.prototype.slice.call(arguments, 1);
-            return function (generator, renderer, callback) {
-                var args = extraArgs.concat([ generator, renderer, callback ]);
-                tester.apply(null, args);
+    }
+
+    function makeImageTests(src) {
+        function getImage(callback) {
+            callback = ensureCallback(callback);
+
+            var img = new window.Image();
+            img.onload = function () {
+                callback(null, img);
             };
+            img.src = src;
         }
 
-        var results = { };
-        chainAsync(
-            function (next) {
-                var img = new window.Image();
-                img.onload = function () {
-                    runTestCombinations(generators, renderers, testRunner(runDomTest, img), function (err, testResults) {
-                        if (err) return callback(err);
+        // generator => renderer => test
+        var tests = { };
+        Object.keys(generators).forEach(function (generatorName) {
+            var generator = generators[generatorName];
 
-                        results.image = testResults;
-                        next();
+            var subTests = { };
+            tests[generatorName] = subTests;
+            Object.keys(renderers).forEach(function (rendererName) {
+                var renderer = renderers[rendererName];
+
+                subTests[rendererName] = function (callback) {
+                    getImage(function (err, image) {
+                        if (err) return callback(err);
+                        runDomTest(image, generator, renderer, callback);
                     });
                 };
-                img.src = 'assets/html5-logo.png';
-            },
-            function () {
-                callback(null, results);
-            }
-        );
+            });
+        });
+
+        return tests;
+    }
+
+    return {
+        image: makeImageTests('assets/html5-logo.png')
     };
 });

@@ -1,6 +1,6 @@
 define([ ], function () {
     var testDom = {
-        endTest: function (domId, passed, results) {
+        endTest: function (domId, err, results) {
             var el = document.getElementById(domId);
             if (!el) {
                 throw new Error('Could not find element #' + domId);
@@ -24,9 +24,13 @@ define([ ], function () {
                     return;
                 }
 
-                if (typeof value === 'object' && value) {
+                if (value === null || typeof value === 'undefined') {
+                    return;
+                }
+
+                if (typeof value === 'object') {
                     Object.keys(value).forEach(function (subName) {
-                        fillSlots(name ? name + '.' + subName : subName, value[subName]);
+                        fillSlots(subName, value[subName]);
                     });
                 } else {
                     var slot = findSlot(name);
@@ -42,7 +46,20 @@ define([ ], function () {
 
             el.classList.remove('pass');
             el.classList.remove('fail');
-            el.classList.add(passed ? 'pass' : 'fail');
+            el.classList.remove('error');
+
+            if (err) {
+                el.classList.add('error');
+
+                var errorMessageEl = el.querySelector('.error-message');
+                if (errorMessageEl) {
+                    errorMessageEl.textContent = err;
+                }
+            } else if (results && results.passed) {
+                el.classList.add('pass');
+            } else {
+                el.classList.add('fail');
+            }
         }
     };
 

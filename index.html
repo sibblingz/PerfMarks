@@ -11,11 +11,17 @@
     color: #CC0000;
 }
 
-.test .results {
+.test .error-message {
     display: none;
 }
 
-.test.pass .results, .test.fail .results {
+.test.error {
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #880000;
+}
+
+.test.error .error-message {
     display: block;
 }
 </style>
@@ -38,50 +44,50 @@
 <p>DOM score, render score</p>
 <ul>
 <li id="sprites" class="test"><span class="name">Sprites</span>
-    <table class="results">
+    <table>
         <thead>
         <tr><th>Technique</th><th>Test type</th><th>JS time (ms)</th><th>Total time (ms)</th></tr>
         </thead>
 
         <tbody>
-        <tr>
+        <tr id="performance-sprites-image-scale-css" class="test results">
             <th rowspan="2"><tt>&lt;img&gt;</tt> + CSS transforms</th>
-            <th>Scale</th>
-            <td data-property="image.css.scale.js"></td>
-            <td data-property="image.css.scale.total"></td>
+            <th>Scale<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
         </tr>
-        <tr>
-            <th>Translate</th>
-            <td data-property="image.css.translate.js"></td>
-            <td data-property="image.css.translate.total"></td>
+        <tr id="performance-sprites-image-translate-css" class="test results">
+            <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
         </tr>
 
-        <tr>
+        <tr id="performance-sprites-image-scale-cssWebkitMatrix" class="test results">
             <th rowspan="2"><tt>&lt;img&gt;</tt> + <code>WebKitCSSMatrix</code> transforms</th>
-            <th>Scale</th>
-            <td data-property="image.cssWebkitMatrix.scale.js"></td>
-            <td data-property="image.cssWebkitMatrix.scale.total"></td>
+            <th>Scale<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
         </tr>
-        <tr>
-            <th>Translate</th>
-            <td data-property="image.cssWebkitMatrix.translate.js"></td>
-            <td data-property="image.cssWebkitMatrix.translate.total"></td>
+        <tr id="performance-sprites-image-translate-cssWebkitMatrix" class="test results">
+            <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
         </tr>
 
-        <tr>
+        <tr id="performance-sprites-image-scale-canvasDrawImagePartial" class="test results">
             <th rowspan="2">Canvas <code>drawImage</code>, partial redraw</th>
-            <th>Scale</th>
-            <td data-property="image.canvasDrawImagePartial.scale.js"></td>
-            <td data-property="image.canvasDrawImagePartial.scale.total"></td>
+            <th>Scale<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
         </tr>
-        <tr>
-            <th>Translate</th>
-            <td data-property="image.canvasDrawImagePartial.translate.js"></td>
-            <td data-property="image.canvasDrawImagePartial.translate.total"></td>
+        <tr id="performance-sprites-image-translate-canvasDrawImagePartial" class="test results">
+            <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
         </tr>
         </tbody>
     </table>
-<li id="audio-latency" class="test"><span class="name">Audio latency</span>
+<li id="performance-audioLatency" class="test"><span class="name">Audio latency</span>
     <ul class="results">
     <li>Cold play latency: <span data-property="coldLatency"></span>ms
     <li>Warm play latency: <span data-property="warmLatency"></span>ms

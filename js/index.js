@@ -1,17 +1,7 @@
-define([ 'tests/performance', 'testDom' ], function (performance, testDom) {
-    var testNameToDomId = {
-        audioLatency: 'audio-latency',
-        sprites: 'sprites'
-    };
-
+define([ 'tests/performance', 'testDom', 'testRunner' ], function (performance, testDom, testRunner) {
     function testDone(err, name, results) {
-        if (!testNameToDomId.hasOwnProperty(name)) {
-            console.warn('Unknown test name: ' + name);
-            return;
-        }
-        var domId = testNameToDomId[name];
-
-        testDom.endTest(domId, !err && results.pass, results);
+        var domId = name.replace(/[^a-z]/gi, '-');
+        testDom.endTest(domId, err, results);
     }
 
     function allTestsDone(err, results) {
@@ -22,5 +12,8 @@ define([ 'tests/performance', 'testDom' ], function (performance, testDom) {
         // Do nothing
     }
 
-    performance(allTestsDone, testDone);
+    testRunner.run('performance', performance, {
+        done: allTestsDone,
+        step: testDone
+    });
 });
