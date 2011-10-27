@@ -8,10 +8,7 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomC
 
         this.transformData = frameData.map(function (objectTransforms) {
             return objectTransforms.map(function (t) {
-                return '' +
-                    'translate3D(' + t.x + 'px,' + t.y + 'px,0px) ' +
-                    'scale3D(' + t.scaleX + ',' + t.scaleY + ',1) ' +
-                    '';
+                return t.cssTransform3d;
             });
         });
     }

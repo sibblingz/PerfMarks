@@ -8,10 +8,7 @@ define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallb
 
         this.transformData = frameData.map(function (objectTransforms) {
             return objectTransforms.map(function (t) {
-                return '' +
-                    'translate(' + t.x + 'px,' + t.y + 'px) ' +
-                    'scale(' + t.scaleX + ',' + t.scaleY + ') ' +
-                    '';
+                return t.cssTransform2d;
             });
         });
 

@@ -1,7 +1,8 @@
 (function () {
     var names = [
         'scale',
-        'translate'
+        'translate',
+        'rotate'
     ];
 
     var filenames = [ ];

@@ -79,35 +79,45 @@ table th, table td {
         </thead>
 
         <tbody>
-        <tr id="performance-sprites-image-scale-css2d" class="test">
-            <th rowspan="12">Static <tt>&lt;img&gt;</tt></th>
+        <tr id="performance-sprites-image-scale-css2dImg" class="test">
+            <th rowspan="18">Static <tt>&lt;img&gt;</tt></th>
 
-            <th rowspan="2">CSS 2D transforms with &lt;img&gt;</th>
+            <th rowspan="3">CSS 2D transforms with &lt;img&gt;</th>
 
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
-        <tr id="performance-sprites-image-translate-css2d" class="test">
+        <tr id="performance-sprites-image-translate-css2dImg" class="test">
             <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
+        <tr id="performance-sprites-image-rotate-css2dImg" class="test">
+            <th>Rotate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
 
-        <tr id="performance-sprites-image-scale-css3d" class="test">
-            <th rowspan="2">CSS 3D transforms with &lt;img&gt;</th>
+        <tr id="performance-sprites-image-scale-css3dImg" class="test">
+            <th rowspan="3">CSS 3D transforms with &lt;img&gt;</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
-        <tr id="performance-sprites-image-translate-css3d" class="test">
+        <tr id="performance-sprites-image-translate-css3dImg" class="test">
             <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
+        <tr id="performance-sprites-image-rotate-css3dImg" class="test">
+            <th>Rotate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
 
         <tr id="performance-sprites-image-scale-cssWebkitMatrix" class="test">
-            <th rowspan="2"><code>WebKitCSSMatrix</code> transforms with &lt;img&gt;</th>
+            <th rowspan="3"><code>WebKitCSSMatrix</code> transforms with &lt;img&gt;</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
@@ -117,9 +127,14 @@ table th, table td {
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
+        <tr id="performance-sprites-image-rotate-cssWebkitMatrix" class="test">
+            <th>Rotate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
 
         <tr id="performance-sprites-image-scale-css2dBackground" class="test">
-            <th rowspan="2">CSS 2D transforms with CSS backgrounds</th>
+            <th rowspan="3">CSS 2D transforms with CSS backgrounds</th>
 
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
@@ -130,9 +145,14 @@ table th, table td {
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
+        <tr id="performance-sprites-image-rotate-css2dBackground" class="test">
+            <th>Rotate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
 
         <tr id="performance-sprites-image-scale-css3dBackground" class="test">
-            <th rowspan="2">CSS 3D transforms with CSS backgrounds</th>
+            <th rowspan="3">CSS 3D transforms with CSS backgrounds</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
@@ -142,9 +162,14 @@ table th, table td {
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
+        <tr id="performance-sprites-image-rotate-css3dBackground" class="test">
+            <th>Rotate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
 
         <tr id="performance-sprites-image-scale-canvasDrawImageFullClear" class="test">
-            <th rowspan="2">Canvas <code>drawImage</code>, full clear</th>
+            <th rowspan="3">Canvas <code>drawImage</code>, full clear</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
@@ -154,38 +179,53 @@ table th, table td {
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
+        <tr id="performance-sprites-image-rotate-canvasDrawImageFullClear" class="test">
+            <th>Rotate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
         </tbody>
 
         <tbody>
-        <tr id="performance-sprites-spriteSheet-scale-css2d" class="test">
-            <th rowspan="12">Animated sprite sheet</th>
+        <tr id="performance-sprites-spriteSheet-scale-css2dImg" class="test">
+            <th rowspan="18">Animated sprite sheet</th>
 
-            <th rowspan="2">CSS 2D transforms with &lt;img&gt;</th>
+            <th rowspan="3">CSS 2D transforms with &lt;img&gt;</th>
 
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
-        <tr id="performance-sprites-spriteSheet-translate-css2d" class="test">
+        <tr id="performance-sprites-spriteSheet-translate-css2dImg" class="test">
             <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
+        <tr id="performance-sprites-spriteSheet-rotate-css2dImg" class="test">
+            <th>Rotate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
 
-        <tr id="performance-sprites-spriteSheet-scale-css3d" class="test">
-            <th rowspan="2">CSS 3D transforms with &lt;img&gt;</th>
+        <tr id="performance-sprites-spriteSheet-scale-css3dImg" class="test">
+            <th rowspan="3">CSS 3D transforms with &lt;img&gt;</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
-        <tr id="performance-sprites-spriteSheet-translate-css3d" class="test">
+        <tr id="performance-sprites-spriteSheet-translate-css3dImg" class="test">
             <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
+        <tr id="performance-sprites-spriteSheet-rotate-css3dImg" class="test">
+            <th>Rotate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
 
         <tr id="performance-sprites-spriteSheet-scale-cssWebkitMatrix" class="test">
-            <th rowspan="2"><code>WebKitCSSMatrix</code> transforms with &lt;img&gt;</th>
+            <th rowspan="3"><code>WebKitCSSMatrix</code> transforms with &lt;img&gt;</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
@@ -195,9 +235,14 @@ table th, table td {
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
+        <tr id="performance-sprites-spriteSheet-rotate-cssWebkitMatrix" class="test">
+            <th>Rotate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
 
         <tr id="performance-sprites-spriteSheet-scale-css2dBackground" class="test">
-            <th rowspan="2">CSS 2D transforms with CSS backgrounds</th>
+            <th rowspan="3">CSS 2D transforms with CSS backgrounds</th>
 
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
@@ -208,9 +253,14 @@ table th, table td {
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
+        <tr id="performance-sprites-spriteSheet-rotate-css2dBackground" class="test">
+            <th>Rotate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
 
         <tr id="performance-sprites-spriteSheet-scale-css3dBackground" class="test">
-            <th rowspan="2">CSS 3D transforms with CSS backgrounds</th>
+            <th rowspan="3">CSS 3D transforms with CSS backgrounds</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
@@ -220,15 +270,25 @@ table th, table td {
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
+        <tr id="performance-sprites-spriteSheet-rotate-css3dBackground" class="test">
+            <th>Rotate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
 
         <tr id="performance-sprites-spriteSheet-scale-canvasDrawImageFullClear" class="test">
-            <th rowspan="2">Canvas <code>drawImage</code>, full clear</th>
+            <th rowspan="3">Canvas <code>drawImage</code>, full clear</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
         <tr id="performance-sprites-spriteSheet-translate-canvasDrawImageFullClear" class="test">
             <th>Translate<span class="error-message"></span></th>
+            <td data-property="js"></td>
+            <td data-property="total"></td>
+        </tr>
+        <tr id="performance-sprites-spriteSheet-rotate-canvasDrawImageFullClear" class="test">
+            <th>Rotate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>

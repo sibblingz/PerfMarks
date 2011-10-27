@@ -22,6 +22,18 @@ define([ ], function () {
             cos * this.scaleX, -sin, this.x,
             sin, cos * this.scaleY, this.y
         ];
+
+        this.cssTransform2d = '' +
+            'translate(' + this.x + 'px,' + this.y + 'px) ' +
+            'scale(' + this.scaleX + ',' + this.scaleY + ') ' +
+            'rotate(' + this.rotation + 'rad) ' +
+            '';
+
+        this.cssTransform3d = '' +
+            'translate3D(' + this.x + 'px,' + this.y + 'px,0px) ' +
+            'scale3D(' + this.scaleX + ',' + this.scaleY + ',1) ' +
+            'rotate(' + this.rotation + 'rad) ' +
+            '';
     }
 
     return Transform;
