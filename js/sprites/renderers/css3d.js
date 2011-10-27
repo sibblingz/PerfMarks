@@ -1,16 +1,10 @@
-define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallback, features, Modernizr) {
-    function RenderContext(element, frameData) {
+define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomContext' ], function (ensureCallback, features, Modernizr, DomContext) {
+    function RenderContext(sourceData, frameData) {
         if (!Modernizr.csstransforms3d) {
             return;
         }
 
-        this.elements = frameData[0].map(function () {
-            var el = element.cloneNode(true);
-            el.style.position = 'absolute';
-            el.style.left = '0';
-            el.style.top = '0';
-            return el;
-        });
+        DomContext.call(this, sourceData, frameData);
 
         this.transformData = frameData.map(function (objectTransforms) {
             return objectTransforms.map(function (t) {
@@ -22,6 +16,8 @@ define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallb
         });
     }
 
+    RenderContext.prototype = Object.create(DomContext.prototype);
+
     RenderContext.prototype.load = function load(callback) {
         callback = ensureCallback(callback);
 
@@ -30,31 +26,24 @@ define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallb
             return;
         }
 
-        this.elements.forEach(function (el) {
-            document.body.appendChild(el);
-        });
-
         callback(null);
     };
 
-    RenderContext.prototype.unload = function unload() {
-        this.elements.forEach(function (el) {
-            if (el.parentNode) {
-                el.parentNode.removeChild(el);
-            }
-        });
-    };
-
     var transformStyleProperty = features.transformStyleProperty;
+    var body = document.body;
 
-    RenderContext.prototype.renderFrame = function renderFrame(frameIndex) {
-        var transforms = this.transformData[frameIndex];
-        var elements = this.elements;
+    RenderContext.prototype.processElements = function processElements(elements, transforms) {
         var count = transforms.length;
-
         var i;
         for (i = 0; i < count; ++i) {
-            elements[i].style[transformStyleProperty] = transforms[i];
+            var element = elements[i];
+            element.style[transformStyleProperty] = transforms[i];
+            element.zIndex = i;
+
+            // Elements not in the DOM need to be added
+            if (!element.parentNode) {
+                body.appendChild(element);
+            }
         }
     };
 

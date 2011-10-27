@@ -1,6 +1,8 @@
 define([ 'util/ensureCallback' ], function (ensureCallback) {
-    function RenderContext(element, frameData) {
-        this.element = element;
+    // FIXME Transforms not identical to CSS tests
+
+    function RenderContext(sourceData, frameData) {
+        this.sourceData = sourceData;
         this.frameData = frameData;
 
         this.canvas = document.createElement('canvas');
@@ -13,8 +15,6 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         this.canvas.style.position = 'absolute';
         this.canvas.style.left = '0';
         this.canvas.style.top = '0';
-
-        this.previousTransforms = null;
     }
 
     RenderContext.prototype.load = function load(callback) {
@@ -36,25 +36,18 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         var previousTransforms = this.previousTransforms;
 
         var context = this.context;
-        var element = this.element;
-        var width = element.width;
-        var height = element.height;
+        var sourceData = this.sourceData;
 
         var count = transforms.length;
 
-        var i, m;
-        if (previousTransforms !== null) {
-            for (i = 0; i < count; ++i) {
-                m = previousTransforms[i].matrix;
-                context.setTransform(m[0], m[1], m[3], m[4], m[2], m[5]);
-                context.clearRect(0, 0, width, height);
-            }
-        }
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
         for (i = 0; i < count; ++i) {
-            m = transforms[i].matrix;
+            var m = transforms[i].matrix;
             context.setTransform(m[0], m[1], m[3], m[4], m[2], m[5]);
-            context.drawImage(element, 0, 0);
+            var img = sourceData.getImage(frameIndex);
+            context.translate(-img.width / 2, -img.height / 2);
+            context.drawImage(img, 0, 0);
         }
 
         this.previousTransforms = transforms;

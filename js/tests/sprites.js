@@ -1,4 +1,4 @@
-define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync' ], function (generators, renderers, ensureCallback, chainAsync) {
+define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync' ], function (sources, generators, renderers, ensureCallback, chainAsync) {
     var FRAME_COUNT = 10;
     var OBJECT_COUNT = 50;
 
@@ -18,11 +18,11 @@ define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util
         return frames;
     }
 
-    function runDomTest(element, generator, renderer, callback) {
+    function runTest(sourceData, generator, renderer, callback) {
         callback = ensureCallback(callback);
 
         var frames = generateFrames(generator, FRAME_COUNT, OBJECT_COUNT);
-        var renderContext = renderer(element, frames);
+        var renderContext = renderer(sourceData, frames);
 
         renderContext.load(function (err) {
             if (err) return callback(err);
@@ -64,40 +64,30 @@ define([ 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util
         });
     }
 
-    function makeImageTests(src) {
-        function getImage(callback) {
-            callback = ensureCallback(callback);
+    // source => generator => renderer => test
+    var tests = { };
+    Object.keys(sources).forEach(function (sourceName) {
+        var source = sources[sourceName];
 
-            var img = new window.Image();
-            img.onload = function () {
-                callback(null, img);
-            };
-            img.src = src;
-        }
-
-        // generator => renderer => test
-        var tests = { };
+        var subTests = { };
+        tests[sourceName] = subTests;
         Object.keys(generators).forEach(function (generatorName) {
             var generator = generators[generatorName];
 
-            var subTests = { };
-            tests[generatorName] = subTests;
+            var subSubTests = { };
+            subTests[generatorName] = subSubTests;
             Object.keys(renderers).forEach(function (rendererName) {
                 var renderer = renderers[rendererName];
 
-                subTests[rendererName] = function (callback) {
-                    getImage(function (err, image) {
+                subSubTests[rendererName] = function (callback) {
+                    source(function (err, sourceData) {
                         if (err) return callback(err);
-                        runDomTest(image, generator, renderer, callback);
+                        runTest(sourceData, generator, renderer, callback);
                     });
                 };
             });
         });
+    });
 
-        return tests;
-    }
-
-    return {
-        image: makeImageTests('assets/html5-logo.png')
-    };
+    return tests;
 });

@@ -1,23 +1,20 @@
 (function () {
     var names = [
-        'css2d',
-        'css3d',
-        'cssWebkitMatrix',
-        'canvasDrawImageFullClear'
+        'image'
     ];
 
     var filenames = [ ];
     names.forEach(function (name) {
-        filenames.push('sprites/renderers/' + name);
+        filenames.push('sprites/sources/' + name);
     });
 
     define(filenames, function (/* ... */) {
-        var renderers = { };
+        var sources = { };
         var values = arguments;
         names.forEach(function (name, i) {
-            renderers[name] = values[i];
+            sources[name] = values[i];
         });
 
-        return renderers;
+        return sources;
     });
 }());
