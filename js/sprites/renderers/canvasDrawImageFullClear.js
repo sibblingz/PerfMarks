@@ -40,7 +40,8 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
 
         var count = transforms.length;
 
-        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        // Reset view and transforms
+        context.canvas.width = context.canvas.width;
 
         for (i = 0; i < count; ++i) {
             var m = transforms[i].matrix;
