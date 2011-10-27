@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <title>HTML5 Game Benchmarks</title>
 <style>
+.test .results {
+    display: none;
+}
+
+.test.pass .results, .test.fail .results {
+    display: block;
+}
+
 .test.pass .name {
     font-weight: bold;
     color: #008800;
@@ -43,44 +51,44 @@
 <h2>Performance Tests</h2>
 <p>DOM score, render score</p>
 <ul>
-<li id="sprites" class="test"><span class="name">Sprites</span>
+<li id="sprites"><span class="name">Sprites</span>
     <table>
         <thead>
         <tr><th>Technique</th><th>Test type</th><th>JS time (ms)</th><th>Total time (ms)</th></tr>
         </thead>
 
         <tbody>
-        <tr id="performance-sprites-image-scale-css" class="test results">
+        <tr id="performance-sprites-image-scale-css" class="test">
             <th rowspan="2"><tt>&lt;img&gt;</tt> + CSS transforms</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
-        <tr id="performance-sprites-image-translate-css" class="test results">
+        <tr id="performance-sprites-image-translate-css" class="test">
             <th>Translate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
 
-        <tr id="performance-sprites-image-scale-cssWebkitMatrix" class="test results">
+        <tr id="performance-sprites-image-scale-cssWebkitMatrix" class="test">
             <th rowspan="2"><tt>&lt;img&gt;</tt> + <code>WebKitCSSMatrix</code> transforms</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
-        <tr id="performance-sprites-image-translate-cssWebkitMatrix" class="test results">
+        <tr id="performance-sprites-image-translate-cssWebkitMatrix" class="test">
             <th>Translate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
 
-        <tr id="performance-sprites-image-scale-canvasDrawImagePartial" class="test results">
+        <tr id="performance-sprites-image-scale-canvasDrawImagePartial" class="test">
             <th rowspan="2">Canvas <code>drawImage</code>, partial redraw</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
         </tr>
-        <tr id="performance-sprites-image-translate-canvasDrawImagePartial" class="test results">
+        <tr id="performance-sprites-image-translate-canvasDrawImagePartial" class="test">
             <th>Translate<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
