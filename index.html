@@ -56,12 +56,15 @@
 <li id="sprites"><span class="name">Sprites</span>
     <table>
         <thead>
-        <tr><th>Technique</th><th>Test type</th><th>JS time (ms)</th><th>Total time (ms)</th></tr>
+        <tr><th>Source type</th><th>Technique</th><th>Test type</th><th>JS time (ms)</th><th>Total time (ms)</th></tr>
         </thead>
 
         <tbody>
         <tr id="performance-sprites-image-scale-css2d" class="test">
-            <th rowspan="2"><tt>&lt;img&gt;</tt> + CSS 2D transforms</th>
+            <th rowspan="8">Static <tt>&lt;img&gt;</tt></th>
+
+            <th rowspan="2">CSS 2D transforms with &lt;img&gt;</th>
+
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
@@ -73,7 +76,7 @@
         </tr>
 
         <tr id="performance-sprites-image-scale-css3d" class="test">
-            <th rowspan="2"><tt>&lt;img&gt;</tt> + CSS 3D transforms</th>
+            <th rowspan="2">CSS 3D transforms with &lt;img&gt;</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
@@ -85,7 +88,7 @@
         </tr>
 
         <tr id="performance-sprites-image-scale-cssWebkitMatrix" class="test">
-            <th rowspan="2"><tt>&lt;img&gt;</tt> + <code>WebKitCSSMatrix</code> transforms</th>
+            <th rowspan="2"><code>WebKitCSSMatrix</code> transforms with &lt;img&gt;</th>
             <th>Scale<span class="error-message"></span></th>
             <td data-property="js"></td>
             <td data-property="total"></td>
