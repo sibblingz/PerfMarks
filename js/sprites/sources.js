@@ -1,6 +1,7 @@
 (function () {
     var names = [
-        'image'
+        'image',
+        'spriteSheet'
     ];
 
     var filenames = [ ];

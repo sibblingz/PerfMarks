@@ -46,9 +46,7 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         for (i = 0; i < count; ++i) {
             var m = transforms[i].matrix;
             context.setTransform(m[0], m[1], m[3], m[4], m[2], m[5]);
-            var img = sourceData.getImage(frameIndex);
-            context.translate(-img.width / 2, -img.height / 2);
-            context.drawImage(img, 0, 0);
+            sourceData.drawToCanvas(context, 0, 0, frameIndex);
         }
 
         this.previousTransforms = transforms;

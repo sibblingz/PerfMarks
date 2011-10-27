@@ -9,6 +9,10 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         return this.img;
     };
 
+    ImageSource.prototype.drawToCanvas = function drawToCanvas(context, dx, dy, frameIndex) {
+        context.drawImage(this.img, dx, dy);
+    };
+
     return function image(callback) {
         callback = ensureCallback(callback);
 
