@@ -1,6 +1,7 @@
 (function () {
     var names = [
-        'css',
+        'css2d',
+        'css3d',
         'cssWebkitMatrix',
         'canvasDrawImagePartial'
     ];
