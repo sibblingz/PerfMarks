@@ -1,4 +1,19 @@
 define([ ], function () {
+    function classes(el) {
+        return el.className.split(/\s+/g);
+    }
+
+    function addClass(el, className) {
+        el.className += ' ' + className;
+    }
+
+    function removeClass(el, className) {
+        // wtb classList (damnit Safari!)
+        el.className = classes(el).filter(function (c) {
+            return c !== className;
+        }).join(' ');
+    }
+
     var testDom = {
         endTest: function (domId, err, results) {
             var el = document.getElementById(domId);
@@ -44,21 +59,21 @@ define([ ], function () {
 
             fillSlots('', results);
 
-            el.classList.remove('pass');
-            el.classList.remove('fail');
-            el.classList.remove('error');
+            removeClass(el, 'pass');
+            removeClass(el, 'fail');
+            removeClass(el, 'error');
 
             if (err) {
-                el.classList.add('error');
+                addClass(el, 'error');
 
                 var errorMessageEl = el.querySelector('.error-message');
                 if (errorMessageEl) {
                     errorMessageEl.textContent = err;
                 }
             } else if (results && results.passed) {
-                el.classList.add('pass');
+                addClass(el, 'pass');
             } else {
-                el.classList.add('fail');
+                addClass(el, 'fail');
             }
         }
     };
