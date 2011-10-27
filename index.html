@@ -50,6 +50,8 @@
 
 <h2>Performance Tests</h2>
 <p>DOM score, render score</p>
+<p><button disabled id="start-performance-tests">Run Tests</button></p>
+
 <ul>
 <li id="sprites"><span class="name">Sprites</span>
     <table>
@@ -113,6 +115,30 @@
     <li>Warm play latency: <span data-property="warmLatency"></span>ms
     </ul>
 </ul>
+
+<script>
+(function () {
+    var onLoadFunctions = [ ];
+    var loaded = false;
+
+    function registerOnLoad(fn) {
+        if (loaded) {
+            setTimeout(fn, 0);
+        } else {
+            onLoadFunctions.push(fn);
+        }
+    }
+
+    window.addEventListener('load', function () {
+        while (onLoadFunctions.length) {
+            var fn = onLoadFunctions.shift();
+            setTimeout(fn, 0);
+        }
+    }, false);
+
+    window.registerOnLoad = registerOnLoad;
+}());
+</script>
 
 <script src="js/unrequire.js"></script>
 <script>require({ baseUrl: 'js' }, [ 'index' ]);</script>
