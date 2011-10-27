@@ -2,6 +2,8 @@
     var names = [
         'css2d',
         'css3d',
+        'css2dBackground',
+        'css3dBackground',
         'cssWebkitMatrix',
         'canvasDrawImageFullClear'
     ];

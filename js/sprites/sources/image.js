@@ -3,6 +3,15 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
 
     function ImageSource(img) {
         this.img = img;
+
+        this.frameInfo = {
+            x: 0,
+            y: 0,
+            width: img.width,
+            height: img.height,
+            image: img,
+            sheetImage: img
+        };
     }
 
     ImageSource.prototype.getImage = function getImage(frameIndex) {
@@ -11,6 +20,10 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
 
     ImageSource.prototype.drawToCanvas = function drawToCanvas(context, dx, dy, frameIndex) {
         context.drawImage(this.img, dx, dy);
+    };
+
+    ImageSource.prototype.getFrameInfo = function getFrameInfo(frameIndex) {
+        return this.frameInfo;
     };
 
     return function image(callback) {

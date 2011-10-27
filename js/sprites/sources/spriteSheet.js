@@ -1,8 +1,8 @@
 define([ 'util/ensureCallback' ], function (ensureCallback) {
     var IMAGE_SRC = 'assets/monstro-fada.png';
 
-    var FRAME_WIDTH = 37;
-    var FRAME_HEIGHT = 58;
+    var FRAME_WIDTH = 37 * 3;
+    var FRAME_HEIGHT = 58 * 3;
 
     var FRAMES_HORIZ = 6;
     var FRAMES_VERT = 1;
@@ -20,12 +20,16 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         context.globalCompositeOperation = 'copy';
 
         this.frameImages = [ ];
+        this.frameInfos = [ ];
         var x, y;
         for (y = 0; y < FRAMES_VERT; ++y) {
             for (x = 0; x < FRAMES_HORIZ; ++x) {
+                var px = x * FRAME_WIDTH;
+                var py = y * FRAME_WIDTH;
+
                 context.drawImage(
                     img,
-                    x * FRAME_WIDTH, y * FRAME_HEIGHT,
+                    px, py,
                     FRAME_WIDTH, FRAME_HEIGHT,
                     0, 0,
                     FRAME_WIDTH, FRAME_HEIGHT
@@ -33,28 +37,39 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
 
                 var frameImage = new window.Image();
                 frameImage.src = canvas.toDataURL();
-                this.frameImages.push(frameImage);
+
+                this.frameInfos.push({
+                    x: px,
+                    y: py,
+                    width: FRAME_WIDTH,
+                    height: FRAME_HEIGHT,
+                    image: frameImage,
+                    sheetImage: img
+                });
             }
         }
+
+        // TODO Cycle frameInfos
     }
 
     ImageSource.prototype.getImage = function getImage(frameIndex) {
-        return this.frameImages[frameIndex % TOTAL_FRAMES];
+        return this.frameInfos[frameIndex % TOTAL_FRAMES].image;
     };
 
     ImageSource.prototype.drawToCanvas = function drawToCanvas(context, dx, dy, frameIndex) {
-        // TODO Move these calculations to ctor
-        frameIndex %= TOTAL_FRAMES;
-        var x = frameIndex % FRAMES_HORIZ;
-        var y = Math.floor(frameIndex / FRAMES_HORIZ);
+        var frameInfo = this.frameInfos[frameIndex % TOTAL_FRAMES];
 
         context.drawImage(
-            this.img,
-            x * FRAME_WIDTH, y * FRAME_HEIGHT,
-            FRAME_WIDTH, FRAME_HEIGHT,
+            frameInfo.sheetImage,
+            frameInfo.x, frameInfo.y,
+            frameInfo.width, frameInfo.height,
             dx, dy,
-            FRAME_WIDTH, FRAME_HEIGHT
+            frameInfo.width, frameInfo.height
         );
+    };
+
+    ImageSource.prototype.getFrameInfo = function getFrameInfo(frameIndex) {
+        return this.frameInfos[frameIndex % TOTAL_FRAMES];
     };
 
     return function spriteSheet(callback) {

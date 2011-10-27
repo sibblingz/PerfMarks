@@ -1,6 +1,6 @@
 define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync' ], function (sources, generators, renderers, ensureCallback, chainAsync) {
-    var FRAME_COUNT = 10;
-    var OBJECT_COUNT = 50;
+    var FRAME_COUNT = 100;
+    var OBJECT_COUNT = 25;
 
     function generateFrames(generator, frameCount, objectCount) {
         var frames = [ ];
