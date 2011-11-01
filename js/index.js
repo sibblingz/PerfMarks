@@ -1,4 +1,4 @@
-define([ 'tests/performance', 'testDom', 'testRunner' ], function (performance, testDom, testRunner) {
+define([ 'tests/performance', 'testDom', 'testRunner', 'tables' ], function (performance, testDom, testRunner, tables) {
     function testDone(err, name, results) {
         var domId = name.replace(/[^a-z0-9]/gi, '-');
         testDom.endTest(domId, err, results);
@@ -13,6 +13,10 @@ define([ 'tests/performance', 'testDom', 'testRunner' ], function (performance, 
     }
 
     registerOnLoad(function () {
+        var table = testDom.buildTable('performance-sprites', tables.performance.sprites);
+        var tablePlaceholder = document.getElementById('performance-sprites-placeholder');
+        tablePlaceholder.parentNode.replaceChild(table, tablePlaceholder);
+
         var performanceTestsRunning = false;
 
         var runPerformanceTestsButton = document.getElementById('start-performance-tests');

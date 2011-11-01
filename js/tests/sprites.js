@@ -64,22 +64,22 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
         });
     }
 
-    // source => generator => renderer => test
+    // source => renderer => generator => test
     var tests = { };
     Object.keys(sources).forEach(function (sourceName) {
         var source = sources[sourceName];
 
         var subTests = { };
         tests[sourceName] = subTests;
-        Object.keys(generators).forEach(function (generatorName) {
-            var generator = generators[generatorName];
+        Object.keys(renderers).forEach(function (rendererName) {
+            var renderer = renderers[rendererName];
 
             var subSubTests = { };
-            subTests[generatorName] = subSubTests;
-            Object.keys(renderers).forEach(function (rendererName) {
-                var renderer = renderers[rendererName];
+            subTests[rendererName] = subSubTests;
+            Object.keys(generators).forEach(function (generatorName) {
+                var generator = generators[generatorName];
 
-                subSubTests[rendererName] = function (callback) {
+                subSubTests[generatorName] = function (callback) {
                     source(function (err, sourceData) {
                         if (err) return callback(err);
                         runTest(sourceData, generator, renderer, callback);
