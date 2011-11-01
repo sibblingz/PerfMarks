@@ -6,6 +6,12 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomC
 
         DomContext.call(this, sourceData, frameData);
 
+        this.elements.forEach(function (frameElements) {
+            frameElements.forEach(function (element) {
+                element.style[features.transformOriginStyleProperty] = '0 0';
+            });
+        });
+
         this.transformData = frameData.map(function (objectTransforms) {
             return objectTransforms.map(function (t) {
                 return t.cssTransform3d;

@@ -18,6 +18,7 @@ define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallb
             el.style.top = '0';
             el.style.left = '0';
             el.style.display = 'block';
+            el.style[features.transformOriginStyleProperty] = '0 0';
             return el;
         });
     }
