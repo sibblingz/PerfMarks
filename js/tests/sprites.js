@@ -1,6 +1,7 @@
 define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync' ], function (sources, generators, renderers, ensureCallback, chainAsync) {
     var FRAME_COUNT = 100;
-    var OBJECT_COUNT = 25;
+
+    var objectCounts = [ 1, 5, 15, 30, 100 ];
 
     function generateFrames(generator, frameCount, objectCount) {
         var frames = [ ];
@@ -18,10 +19,10 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
         return frames;
     }
 
-    function runTest(sourceData, generator, renderer, callback) {
+    function runTest(sourceData, objectCount, generator, renderer, callback) {
         callback = ensureCallback(callback);
 
-        var frames = generateFrames(generator, FRAME_COUNT, OBJECT_COUNT);
+        var frames = generateFrames(generator, FRAME_COUNT, objectCount);
         var renderContext = renderer(sourceData, frames);
 
         renderContext.load(function (err) {
@@ -64,27 +65,35 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
         });
     }
 
-    // source => renderer => generator => test
+    // source => renderer => object count => generator => test
     var tests = { };
+
     Object.keys(sources).forEach(function (sourceName) {
         var source = sources[sourceName];
 
         var subTests = { };
         tests[sourceName] = subTests;
+
         Object.keys(renderers).forEach(function (rendererName) {
             var renderer = renderers[rendererName];
 
             var subSubTests = { };
             subTests[rendererName] = subSubTests;
-            Object.keys(generators).forEach(function (generatorName) {
-                var generator = generators[generatorName];
 
-                subSubTests[generatorName] = function (callback) {
-                    source(function (err, sourceData) {
-                        if (err) return callback(err);
-                        runTest(sourceData, generator, renderer, callback);
-                    });
-                };
+            objectCounts.forEach(function (objectCount) {
+                var subSubSubTests = { };
+                subSubTests[objectCount] = subSubSubTests;
+
+                Object.keys(generators).forEach(function (generatorName) {
+                    var generator = generators[generatorName];
+
+                    subSubSubTests[generatorName] = function (callback) {
+                        source(function (err, sourceData) {
+                            if (err) return callback(err);
+                            runTest(sourceData, objectCount, generator, renderer, callback);
+                        });
+                    };
+                });
             });
         });
     });
