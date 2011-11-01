@@ -29,6 +29,37 @@ define([ ], function () {
                         }
                     }
                 }
+            },
+
+            text: {
+                $title: 'Font family',
+                sans: 'sans-serif',
+                serif: 'serif',
+                monospace: 'monospace',
+
+                $children: {
+                    $title: 'Font size',
+                    '8': '8pt',
+                    '10': '10pt',
+                    '12': '12pt',
+                    '14': '14pt',
+                    '16': '16pt',
+                    '24': '24pt',
+
+                    $children: {
+                        $title: 'Style',
+                        outline: 'Solid outline',
+                        fill: 'Solid fill',
+                        fillOutline: 'Solid fill + outline',
+
+                        $children: {
+                            $mode: 'horizontal',
+                            draw: 'Text draw time (ms)',
+                            flush: 'Flush time (ms)',
+                            total: 'Total time (ms)'
+                        }
+                    }
+                }
             }
         }
     };

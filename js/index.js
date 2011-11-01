@@ -17,6 +17,10 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables' ], function (per
         var tablePlaceholder = document.getElementById('performance-sprites-placeholder');
         tablePlaceholder.parentNode.replaceChild(table, tablePlaceholder);
 
+        table = testDom.buildTable('performance-text', tables.performance.text);
+        tablePlaceholder = document.getElementById('performance-text-placeholder');
+        tablePlaceholder.parentNode.replaceChild(table, tablePlaceholder);
+
         var performanceTestsRunning = false;
 
         var runPerformanceTestsButton = document.getElementById('start-performance-tests');
