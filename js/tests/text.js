@@ -1,5 +1,4 @@
-define([ 'util/ensureCallback' ], function (ensureCallback) {
-    var ITERATION_COUNT = 1000;
+define([ 'util/ensureCallback', 'util/bench' ], function (ensureCallback, bench) {
     var texts = [ 'hello world', 'other text' ];
     var CANVAS_WIDTH = 640;
     var CANVAS_HEIGHT = 640;
@@ -58,19 +57,17 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         stylePreparers[style](context);
 
         var execute = styleExecutors[style];
-        var startTime = Date.now();
-        var i;
-        for (i = 0; i < ITERATION_COUNT; ++i) {
+        var score = bench(100, function (i) {
             execute(context, texts[i % texts.length]);
-        }
-        var lapTime = Date.now();
-        context.getImageData(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)[0];
-        var endTime = Date.now();
+
+            // FIXME I'd like to be able to verify that the drawing operation
+            // actually executed (and didn't defer), but getImageData (below)
+            // is too slow to run in a loop like this.
+            //context.getImageData(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)[0];
+        });
 
         callback(null, {
-            draw: lapTime - startTime,
-            flush: endTime - lapTime,
-            total: endTime - startTime
+            score: score.toFixed(2)
         });
     }
 

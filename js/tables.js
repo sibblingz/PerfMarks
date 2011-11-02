@@ -63,9 +63,7 @@ define([ ], function () {
 
                         $children: {
                             $mode: 'horizontal',
-                            draw: 'Text draw time (ms)',
-                            flush: 'Flush time (ms)',
-                            total: 'Total time (ms)'
+                            score: 'Score'
                         }
                     }
                 }
