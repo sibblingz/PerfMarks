@@ -9,7 +9,7 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables' ], function (per
             console.error(err);
         }
 
-        // Do nothing
+        testDom.writeReport(results);
     }
 
     registerOnLoad(function () {

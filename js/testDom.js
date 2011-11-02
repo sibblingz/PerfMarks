@@ -1,4 +1,4 @@
-define([ ], function () {
+define([ 'util/report' ], function (report) {
     function classes(el) {
         return el.className.split(/\s+/g);
     }
@@ -34,6 +34,10 @@ define([ ], function () {
         return tr;
     }
 
+    function testResultNameAccept(name) {
+        return name !== 'pass';
+    }
+
     var testDom = {
         endTest: function (domId, err, results) {
             var el = document.getElementById(domId);
@@ -55,7 +59,7 @@ define([ ], function () {
             }
 
             function fillSlots(name, value) {
-                if (name === 'pass') {
+                if (!testResultNameAccept(name)) {
                     return;
                 }
 
@@ -95,6 +99,22 @@ define([ ], function () {
             } else {
                 addClass(el, 'fail');
             }
+
+        },
+
+        writeReport: function writeReport(results) {
+            var allTestResultsEl = document.getElementById('all-test-results');
+            var csv = [
+                report.csv({
+                    userAgent: window.navigator.userAgent,
+                    language: window.navigator.language,
+                    plugins: window.navigator.plugins
+                }),
+                '',
+                report.csv(results, testResultNameAccept)
+            ].join('\n');
+
+            allTestResultsEl.textContent = csv;
         },
 
         buildTable: function buildTable(rootPath, desc) {
