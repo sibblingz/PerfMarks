@@ -1,7 +1,7 @@
-define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync' ], function (sources, generators, renderers, ensureCallback, chainAsync) {
+define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync', 'util/benchAsync' ], function (sources, generators, renderers, ensureCallback, chainAsync, benchAsync) {
     var FRAME_COUNT = 100;
 
-    var objectCounts = [ 1, 5, 15, 30, 100 ];
+    var objectCounts = [ 0, 1, 5, 15, 30, 100 ];
 
     function generateFrames(generator, frameCount, objectCount) {
         var frames = [ ];
@@ -28,40 +28,28 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
         renderContext.load(function (err) {
             if (err) return callback(err);
 
-            var startTime = null;
             var jsTime = 0;
 
-            var currentFrame = 0;
-            function frame() {
-                if (currentFrame === FRAME_COUNT) {
-                    var endTime = Date.now();
-                    renderContext.unload();
-                    callback(null, {
-                        total: endTime - startTime,
-                        js: jsTime
-                    });
-                    return false;
-                }
+            function frame(i, next) {
+                setTimeout(next, 0);
 
+                var frame = i % FRAME_COUNT;
                 var jsStartTime = Date.now();
-                renderContext.renderFrame(currentFrame);
+                renderContext.renderFrame(frame);
                 var jsEndTime = Date.now();
                 jsTime += jsEndTime - jsStartTime;
-
-                ++currentFrame;
-                return true;
             }
 
-            var intervalId = setInterval(function () {
-                if (startTime === null) {
-                    startTime = Date.now();
-                }
+            function done(err, score) {
+                renderContext.unload();
 
-                var cont = frame();
-                if (!cont) {
-                    clearInterval(intervalId);
-                }
-            }, 0);
+                callback(null, {
+                    js: jsTime,
+                    wallScore: score
+                });
+            }
+
+            return benchAsync(1000, frame, done);
         });
     }
 

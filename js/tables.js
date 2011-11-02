@@ -17,6 +17,7 @@ define([ ], function () {
 
                     $children: {
                         $title: 'Object count',
+                        '0': '0',
                         '1': '1',
                         '5': '5',
                         '15': '15',
@@ -33,7 +34,7 @@ define([ ], function () {
                             $children: {
                                 $mode: 'horizontal',
                                 js: 'JS time (ms)',
-                                total: 'Total time (ms)'
+                                wallScore: 'Wall score'
                             }
                         }
                     }
