@@ -1,4 +1,9 @@
-define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report' ], function (performance, testDom, testRunner, tables, report) {
+define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 'util/ensureCallback' ], function (performance, testDom, testRunner, tables, report, ensureCallback) {
+    var agentMetadata = {
+        userAgent: window.navigator.userAgent,
+        language: window.navigator.language
+    };
+
     function testDone(err, name, results) {
         var domId = name.replace(/[^a-z0-9]/gi, '-');
         testDom.endTest(domId, err, results);
@@ -10,10 +15,7 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report' ]
         }
 
         var reports = [
-            report.csvByObject({
-                userAgent: window.navigator.userAgent,
-                language: window.navigator.language
-            })
+            report.csvByObject(agentMetadata)
         ];
 
         Object.keys(performance).forEach(function (testName) {
@@ -35,31 +37,72 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report' ]
         tablePlaceholder.parentNode.replaceChild(table, tablePlaceholder);
 
         var performanceTestsRunning = false;
-
         var runPerformanceTestsButton = document.getElementById('start-performance-tests');
-        runPerformanceTestsButton.disabled = false;
+        var uploadPerformanceTestsButton = document.getElementById('upload-performance-tests');
 
-        function runPerformanceTests() {
-            if (performanceTestsRunning) {
-                return;
-            }
+        function setRunning(isRunning) {
+            performanceTestsRunning = isRunning;
+            runPerformanceTestsButton.disabled = isRunning;
+            uploadPerformanceTestsButton.disabled = isRunning;
+        }
 
-            performanceTestsRunning = true;
-            runPerformanceTestsButton.disabled = true;
+        function runPerformanceTests(callback) {
+            callback = ensureCallback(callback);
 
             testRunner.run('performance', performance, {
                 done: function (err, results) {
-                    performanceTestsRunning = false;
-                    runPerformanceTestsButton.disabled = false;
-
                     allTestsDone(err, results);
+                    callback(err, results);
                 },
                 step: testDone
             });
         }
 
+        function runAndUploadPerformanceTests(callback) {
+            callback = ensureCallback(callback);
+
+            runPerformanceTests(function (err, results) {
+                if (err) return callback(err);
+
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        // Complete
+                        callback(null);
+                    }
+                };
+                xhr.open('POST', 'results', true);
+                xhr.send(JSON.stringify({
+                    agentMetadata: agentMetadata,
+                    results: results
+                }));
+            });
+        }
+
+        setRunning(false);
+
         runPerformanceTestsButton.addEventListener('click', function () {
-            runPerformanceTests();
+            if (performanceTestsRunning) {
+                throw new Error('Tests already running');
+            }
+
+            setRunning(true);
+
+            runPerformanceTests(function (err, results) {
+                setRunning(false);
+            });
+        }, false);
+
+        uploadPerformanceTestsButton.addEventListener('click', function () {
+            if (performanceTestsRunning) {
+                throw new Error('Tests already running');
+            }
+
+            setRunning(true);
+
+            runAndUploadPerformanceTests(function (err, results) {
+                setRunning(false);
+            });
         }, false);
 
         var getVars = { };
