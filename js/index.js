@@ -1,4 +1,4 @@
-define([ 'tests/performance', 'testDom', 'testRunner', 'tables' ], function (performance, testDom, testRunner, tables) {
+define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report' ], function (performance, testDom, testRunner, tables, report) {
     function testDone(err, name, results) {
         var domId = name.replace(/[^a-z0-9]/gi, '-');
         testDom.endTest(domId, err, results);
@@ -13,11 +13,11 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables' ], function (per
     }
 
     registerOnLoad(function () {
-        var table = testDom.buildTable('performance-sprites', tables.performance.sprites);
+        var table = report.tableTemplate('performance-sprites', report.makeTableLayout(tables.performance.sprites));
         var tablePlaceholder = document.getElementById('performance-sprites-placeholder');
         tablePlaceholder.parentNode.replaceChild(table, tablePlaceholder);
 
-        table = testDom.buildTable('performance-text', tables.performance.text);
+        table = report.tableTemplate('performance-text', report.makeTableLayout(tables.performance.text));
         tablePlaceholder = document.getElementById('performance-text-placeholder');
         tablePlaceholder.parentNode.replaceChild(table, tablePlaceholder);
 
