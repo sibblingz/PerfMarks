@@ -5,9 +5,12 @@ define([ 'util/ensureCallback', 'util/chainAsync' ], function (ensureCallback, c
             var doneCallback = ensureCallback(callbacks.done);
 
             if (typeof test === 'function') {
-                test(function (err, results) {
-                    stepCallback(err, name, results);
-                    doneCallback(err, results);
+                // We run the test twice (sadly): once to warm up the JIT and once for the actual test.
+                test(function (_, _) {
+                    test(function (err, results) {
+                        stepCallback(err, name, results);
+                        doneCallback(err, results);
+                    });
                 });
             } else {
                 var allResults = { };
