@@ -9,7 +9,20 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report' ]
             console.error(err);
         }
 
-        testDom.writeReport(results);
+        var reports = [
+            report.csvByObject({
+                userAgent: window.navigator.userAgent,
+                language: window.navigator.language
+            })
+        ];
+
+        Object.keys(performance).forEach(function (testName) {
+            var layout = report.makeTableLayout(tables.performance[testName]);
+            reports.push(report.csvByLayout(results[testName], layout, [ testName ]));
+        });
+
+        var allTestResultsEl = document.getElementById('all-test-results');
+        allTestResultsEl.textContent = reports.join('\n\n');
     }
 
     registerOnLoad(function () {

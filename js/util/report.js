@@ -1,4 +1,12 @@
 define([ ], function () {
+    function serializeCsvCell(text) {
+        if (/"/.test(text)) {
+            return '"' + text.replace(/"/g, '""') + '"';
+        } else {
+            return text;
+        }
+    }
+
     function th(text) {
         var th = document.createElement('th');
         th.textContent = text;
@@ -36,7 +44,7 @@ define([ ], function () {
 
             // Array name means vertical; string name means horizontal
             var columns = [ ];
-            levels.forEach(function (level) {
+            levels.forEach(function (level, i) {
                 switch (level.$mode) {
                 default:
                 case 'vertical':
@@ -46,6 +54,18 @@ define([ ], function () {
                         title: level.$title,
                         level: level
                     });
+
+                    if (i === levels.length - 1) {
+                        // If the last level is vertical, insert a new column
+                        // just for the data.
+                        columns.push({
+                            name: null,
+                            rowSpan: 1,
+                            title: '(null)',
+                            level: null
+                        });
+                    }
+
                     break;
 
                 case 'horizontal':
@@ -143,19 +163,13 @@ define([ ], function () {
             return table;
         },
 
-        csv: function csv(data) {
-            function serialize(text) {
-                if (/"/.test(text)) {
-                    return '"' + text.replace(/"/g, '""') + '"';
-                } else {
-                    return text;
-                }
-            }
+        csvByTable: function csvByTable(records) {
+            return records.map(function (record) {
+                return record.map(serializeCsvCell).join(',');
+            }).join('\n');
+        },
 
-            if (typeof accept !== 'function') {
-                accept = function () { return true; };
-            }
-
+        csvByObject: function csvByObject(object) {
             var records = [ ];
 
             function write(object, stack) {
@@ -170,9 +184,7 @@ define([ ], function () {
                 switch (typeof object) {
                 case 'object':
                     Object.keys(object).forEach(function (key) {
-                        if (accept(key)) {
-                            write(object[key], stack.concat([ key ]));
-                        }
+                        write(object[key], stack.concat([ key ]));
                     });
                     break;
 
@@ -187,11 +199,46 @@ define([ ], function () {
                 }
             }
 
-            write(data, [ ]);
+            write(object, [ ]);
+            return report.csvByTable(records);
+        },
 
-            return records.map(function (record) {
-                return record.map(serialize).join(',');
-            }).join('\n');
+        csvByLayout: function csv(data, layout, prefix) {
+            function getValue(object, path) {
+                path = path.slice();
+                while (object && path.length) {
+                    object = object[path.shift()];
+                }
+                return object;
+            }
+
+            var records = [ ];
+
+            var rowIndex, columnIndex;
+            for (rowIndex = 0; rowIndex < layout.rowCount; ++rowIndex) {
+                var path = [ ];
+                var record = prefix.slice(); // PREFIX IS A HACK FIXME
+                records.push(record);
+                for (columnIndex = 0; columnIndex < layout.columns.length; ++columnIndex) {
+                    var column = layout.columns[columnIndex];
+
+                    var cell;
+                    var name = column.name;
+                    if (Array.isArray(name)) {
+                        name = name[Math.floor(rowIndex / column.rowSpan) % name.length];
+                        cell = column.level[name];
+                        path.push(name);
+                    } else if (name === null) {
+                        cell = getValue(data, path);
+                    } else {
+                        cell = getValue(data, path.concat([ name ]));
+                    }
+
+                    record.push(cell);
+                }
+            }
+
+            return report.csvByTable(records);
         }
     };
 

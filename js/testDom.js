@@ -80,20 +80,6 @@ define([ 'util/report' ], function (report) {
                 addClass(el, 'fail');
             }
 
-        },
-
-        writeReport: function writeReport(results) {
-            var allTestResultsEl = document.getElementById('all-test-results');
-            var csv = [
-                report.csv({
-                    userAgent: window.navigator.userAgent,
-                    language: window.navigator.language
-                }),
-                '',
-                report.csv(results, testResultNameAccept)
-            ].join('\n');
-
-            allTestResultsEl.textContent = csv;
         }
     };
 

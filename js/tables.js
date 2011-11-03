@@ -68,6 +68,12 @@ define([ ], function () {
                         }
                     }
                 }
+            },
+
+            audioLatency: {
+                $title: 'Type',
+                coldLatency: 'Cold latency (ms)',
+                warmLatency: 'Warm latency (ms)'
             }
         }
     };
