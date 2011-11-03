@@ -1,8 +1,11 @@
 define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 'util/ensureCallback' ], function (performance, testDom, testRunner, tables, report, ensureCallback) {
-    var agentMetadata = {
-        userAgent: window.navigator.userAgent,
-        language: window.navigator.language
-    };
+    function getAgentMetadata() {
+        return {
+            userAgent: window.navigator.userAgent,
+            language: window.navigator.language,
+            name: document.getElementById('ua-name').value
+        };
+    }
 
     function testDone(err, name, results) {
         var domId = name.replace(/[^a-z0-9]/gi, '-');
@@ -15,7 +18,7 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 
         }
 
         var reports = [
-            report.csvByObject(agentMetadata)
+            report.csvByObject(getAgentMetadata())
         ];
 
         Object.keys(performance).forEach(function (testName) {
@@ -73,7 +76,7 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 
                 };
                 xhr.open('POST', 'results', true);
                 xhr.send(JSON.stringify({
-                    agentMetadata: agentMetadata,
+                    agentMetadata: getAgentMetadata(),
                     results: results
                 }));
             });

@@ -18,22 +18,28 @@ app.configure('production', function(){
     app.use(express.errorHandler());
 });
 
-app.get('/', function (req, res) {
-    res.writeHead(301, {
-        location: '/index.html'
-    });
-    res.end();
-});
+var UPLOAD_DIRECTORY = __dirname + '/uploads';
+
+function saveUpload(data) {
+    var filename = UPLOAD_DIRECTORY + '/' + (data.date + '_' + data.ip).replace(/[^A-Za-z0-9_.-]/g, '_') + '.json';
+    require('fs').writeFile(filename, JSON.stringify(data) + '\n', 'utf8');
+}
 
 app.post('/results', function (req, res) {
+    var date = Date.now();
+
     var jsonData = '';
     req.on('data', function (data) {
         jsonData += data.toString('utf8');
     });
 
     req.on('end', function () {
-        var data = JSON.parse(jsonData);
-        console.log(data);
+        var userData = JSON.parse(jsonData);
+        saveUpload({
+            date: date,
+            ip: req.connection.remoteAddress,
+            userData: userData
+        });
         res.end();
     });
 
