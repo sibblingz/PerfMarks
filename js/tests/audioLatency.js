@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback', 'util/cacheBust' ], function (ensureCallback, cacheBust) {
+define([ 'util/ensureCallback', 'util/cacheBust', 'util/timeout' ], function (ensureCallback, cacheBust, timeout) {
     var MAX_LATENCY = 20;
 
     function getPlayLatency(audio, callback) {
@@ -23,7 +23,7 @@ define([ 'util/ensureCallback', 'util/cacheBust' ], function (ensureCallback, ca
         audio.play();
     }
 
-    return function audioLatency(callback) {
+    function audioLatency(callback) {
         callback = ensureCallback(callback);
 
         if (!window.Audio) {
@@ -75,5 +75,11 @@ define([ 'util/ensureCallback', 'util/cacheBust' ], function (ensureCallback, ca
         // time of writing) where the browser will decide it doesn't /need/
         // to download all these pesky audio files.
         window['audio__' + Math.random()] = audio;
+    }
+
+    return function (callback) {
+        callback = ensureCallback(callback);
+
+        timeout(5000, audioLatency, callback);
     };
 });
