@@ -107,8 +107,7 @@ define([ 'util/report' ], function (report) {
             var csv = [
                 report.csv({
                     userAgent: window.navigator.userAgent,
-                    language: window.navigator.language,
-                    plugins: window.navigator.plugins
+                    language: window.navigator.language
                 }),
                 '',
                 report.csv(results, testResultNameAccept)
