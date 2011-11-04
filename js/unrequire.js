@@ -653,6 +653,7 @@
 
                 if (success) {
                     done(null);
+                    return;
                 }
             }
 
@@ -963,15 +964,12 @@
         } else if (ENABLE_NODEJS && typeof module !== 'undefined') {
             un = module.exports = create({
                 'context': { },
-                'loadScriptAsync': function loadScriptAsync(scriptName, callback) {
-                    callback(new Error('Error loading module ' + scriptName + ': not supported'));
-                },
                 'loadScriptSync': function (scriptName) {
                     // require here is the Node.JS-provided require
 
                     var code;
                     try {
-                        code = require('fs')['readFileSync'](scriptName);
+                        code = require('fs')['readFileSync'](scriptName, 'utf8');
                     } catch (e) {
                         // TODO Detect file-not-found errors only
                         return false;
@@ -982,6 +980,9 @@
                     return true;
                 }
             });
+
+            un['context']['define'] = un['define'];
+            un['context']['require'] = un['require'];
         } else {
             throw new Error('Unsupported environment');
         }

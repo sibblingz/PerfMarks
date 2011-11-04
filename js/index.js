@@ -1,12 +1,4 @@
-define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 'util/ensureCallback' ], function (performance, testDom, testRunner, tables, report, ensureCallback) {
-    function getAgentMetadata() {
-        return {
-            userAgent: window.navigator.userAgent,
-            language: window.navigator.language,
-            name: document.getElementById('ua-name').value
-        };
-    }
-
+define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 'util/ensureCallback', 'fullReport' ], function (performance, testDom, testRunner, tables, report, ensureCallback, fullReport) {
     function testDone(err, name, results) {
         var domId = name.replace(/[^a-z0-9]/gi, '-');
         testDom.endTest(domId, err, results);
@@ -15,19 +7,11 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 
     function allTestsDone(err, results) {
         if (err) {
             console.error(err);
+            return;
         }
 
-        var reports = [
-            report.csvByObject(getAgentMetadata())
-        ];
-
-        Object.keys(performance).forEach(function (testName) {
-            var layout = report.makeTableLayout(tables.performance[testName]);
-            reports.push(report.csvByLayout(results[testName], layout, [ testName ]));
-        });
-
         var allTestResultsEl = document.getElementById('all-test-results');
-        allTestResultsEl.textContent = reports.join('\n\n');
+        allTestResultsEl.textContent = fullReport.csvReport(results);
     }
 
     registerOnLoad(function () {
@@ -76,7 +60,7 @@ define([ 'tests/performance', 'testDom', 'testRunner', 'tables', 'util/report', 
                 };
                 xhr.open('POST', 'results', true);
                 xhr.send(JSON.stringify({
-                    agentMetadata: getAgentMetadata(),
+                    agentMetadata: fullReport.getAgentMetadata(),
                     results: results
                 }));
             });
