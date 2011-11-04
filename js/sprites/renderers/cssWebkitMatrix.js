@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback', 'sprites/renderers/DomContext' ], function (ensureCallback, DomContext) {
+define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create' ], function (ensureCallback, DomContext, create) {
     var SUPPORTS_WEBKIT_MATRIX = typeof WebKitCSSMatrix === 'function';
 
     function RenderContext(sourceData, frameData) {
@@ -22,7 +22,7 @@ define([ 'util/ensureCallback', 'sprites/renderers/DomContext' ], function (ensu
         });
     }
 
-    RenderContext.prototype = Object.create(DomContext.prototype);
+    RenderContext.prototype = create(DomContext.prototype);
 
     RenderContext.prototype.load = function load(callback) {
         callback = ensureCallback(callback);

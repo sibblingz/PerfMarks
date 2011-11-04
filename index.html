@@ -84,6 +84,18 @@ table th, table td {
 <textarea id="all-test-results"></textarea>
 
 <script>
+Object.keys = function keys(object) {
+    // Quick shim; doesn't handle IE bugs
+    var keys = [ ];
+    var key;
+    for (key in object) {
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
+            keys.push(key);
+        }
+    }
+    return keys;
+};
+
 (function () {
     var onLoadFunctions = [ ];
     var loaded = false;

@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomContext' ], function (ensureCallback, features, Modernizr, DomContext) {
+define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomContext', 'util/create' ], function (ensureCallback, features, Modernizr, DomContext, create) {
     function RenderContext(sourceData, frameData) {
         if (!Modernizr.csstransforms) {
             return;
@@ -19,7 +19,7 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomC
         });
     }
 
-    RenderContext.prototype = Object.create(DomContext.prototype);
+    RenderContext.prototype = create(DomContext.prototype);
 
     RenderContext.prototype.load = function load(callback) {
         callback = ensureCallback(callback);
