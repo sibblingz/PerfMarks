@@ -1,6 +1,6 @@
 define([ 'tables', 'util/report' ], function (tables, report) {
     function getAgentMetadata() {
-        if (typeof window !== 'undefined' && object) {
+        if (typeof window !== 'undefined' && window) {
             return {
                 userAgent: window.navigator.userAgent,
                 language: window.navigator.language,
