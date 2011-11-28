@@ -16,26 +16,16 @@ define([ ], function () {
                     canvasDrawImageFullClear: 'Canvas drawImage, full clear',
 
                     $children: {
-                        $title: 'Object count',
-                        '0': '0',
-                        '1': '1',
-                        '5': '5',
-                        '15': '15',
-                        '30': '30',
-                        '100': '100',
+                        $title: 'Test type',
+                        $errors: true,
+                        scale: 'Scale',
+                        translate: 'Translate',
+                        rotate: 'Rotate',
 
                         $children: {
-                            $title: 'Test type',
-                            $errors: true,
-                            scale: 'Scale',
-                            translate: 'Translate',
-                            rotate: 'Rotate',
-
-                            $children: {
-                                $mode: 'horizontal',
-                                js: 'JS time (ms)',
-                                wallScore: 'Wall score'
-                            }
+                            $mode: 'horizontal',
+                            js: 'JS time (ms)',
+                            objectCount: 'Objects at 30FPS'
                         }
                     }
                 }
