@@ -1,21 +1,12 @@
-define([ 'util/ensureCallback' ], function (ensureCallback) {
-    // FIXME Transforms not identical to CSS tests
-
+define([ 'util/ensureCallback', 'sprites/canvas' ], function (ensureCallback, canvas) {
     function RenderContext(sourceData, frameData) {
         this.sourceData = sourceData;
         this.frameData = frameData;
 
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = 768;
-        this.canvas.height = 768;
-        this.canvas.style.background = '#FFFFFF';
+        this.canvas = canvas();
 
         this.context = this.canvas.getContext('2d');
         this.context.globalCompositeOperation = 'source-over';
-
-        this.canvas.style.position = 'absolute';
-        this.canvas.style.left = '0';
-        this.canvas.style.top = '0';
     }
 
     RenderContext.prototype.load = function load(callback) {
