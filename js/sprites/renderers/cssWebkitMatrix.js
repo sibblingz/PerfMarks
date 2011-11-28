@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create', 'sprites/container' ], function (ensureCallback, DomContext, create, container) {
+define([ 'util/ensureCallback', 'features', 'sprites/renderers/DomContext', 'util/create', 'sprites/container' ], function (ensureCallback, features, DomContext, create, container) {
     var SUPPORTS_WEBKIT_MATRIX = typeof WebKitCSSMatrix === 'function';
 
     function RenderContext(sourceData, frameData) {
@@ -7,6 +7,12 @@ define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create', '
         }
 
         DomContext.call(this, sourceData, frameData);
+
+        this.elements.forEach(function (frameElements) {
+            frameElements.forEach(function (element) {
+                element.style[features.transformOriginStyleProperty] = '0 0';
+            });
+        });
 
         this.transformData = frameData.map(function (objectTransforms) {
             return objectTransforms.map(function (t) {
