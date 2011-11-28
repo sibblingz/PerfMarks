@@ -108,14 +108,12 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
         var objectCountStep = objectCountSteps.pop();
 
         function test(objectCount) {
-            console.log('testing', objectCount);
             if (Object.prototype.hasOwnProperty.call(fpsResults, objectCount)) {
                 // Already tested; let's say we're done here
                 done();
                 return;
             }
 
-            console.log('Testing', objectCount, 'objects');
             runTest(sourceData, objectCount, generator, renderer, function testDone(err, results) {
                 if (err) return callback(err);
 
