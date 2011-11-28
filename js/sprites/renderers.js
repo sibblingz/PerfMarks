@@ -5,7 +5,8 @@
         'css2dBackground',
         'css3dBackground',
         'cssWebkitMatrix',
-        'canvasDrawImageFullClear'
+        'canvasDrawImageFullClear',
+        'canvasDrawImageFullClearAlign'
     ];
 
     var filenames = [ ];

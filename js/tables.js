@@ -14,6 +14,7 @@ define([ ], function () {
                     css3dBackground: 'CSS3 3D transforms with CSS backgrounds',
                     cssWebkitMatrix: 'WebKitCSSMatrix transforms with <img>',
                     canvasDrawImageFullClear: 'Canvas drawImage, full clear',
+                    canvasDrawImageFullClearAlign: 'Canvas drawImage, full clear, pixel aligned',
 
                     $children: {
                         $title: 'Test type',
