@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create' ], function (ensureCallback, DomContext, create) {
+define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create', 'sprites/container' ], function (ensureCallback, DomContext, create, container) {
     var SUPPORTS_WEBKIT_MATRIX = typeof WebKitCSSMatrix === 'function';
 
     function RenderContext(sourceData, frameData) {
@@ -20,6 +20,8 @@ define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create' ],
                 return m;
             });
         });
+
+        this.containerElement = container();
     }
 
     RenderContext.prototype = create(DomContext.prototype);
@@ -32,10 +34,15 @@ define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create' ],
             return;
         }
 
+        document.body.appendChild(this.containerElement);
+
         callback(null);
     };
 
-    var body = document.body;
+    RenderContext.prototype.unload = function unload() {
+        this.containerElement.parentNode.removeChild(this.containerElement);
+        DomContext.prototype.unload.call(this);
+    };
 
     RenderContext.prototype.processElements = function processElements(elements, transforms) {
         var count = transforms.length;
@@ -47,7 +54,7 @@ define([ 'util/ensureCallback', 'sprites/renderers/DomContext', 'util/create' ],
 
             // Elements not in the DOM need to be added
             if (!element.parentNode) {
-                body.appendChild(element);
+                this.containerElement.appendChild(element);
             }
         }
     };

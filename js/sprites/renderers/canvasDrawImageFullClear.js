@@ -6,8 +6,9 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         this.frameData = frameData;
 
         this.canvas = document.createElement('canvas');
-        this.canvas.width = 1024;
-        this.canvas.height = 1024;
+        this.canvas.width = 768;
+        this.canvas.height = 768;
+        this.canvas.style.background = '#FFFFFF';
 
         this.context = this.canvas.getContext('2d');
         this.context.globalCompositeOperation = 'source-over';

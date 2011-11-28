@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallback, features, Modernizr) {
+define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/container' ], function (ensureCallback, features, Modernizr, container) {
     function RenderContext(sourceData, frameData) {
         if (!Modernizr.csstransforms) {
             return;
@@ -21,9 +21,9 @@ define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallb
             el.style[features.transformOriginStyleProperty] = '0 0';
             return el;
         });
-    }
 
-    var body = document.body;
+        this.containerElement = container();
+    }
 
     RenderContext.prototype.load = function load(callback) {
         callback = ensureCallback(callback);
@@ -34,13 +34,17 @@ define([ 'util/ensureCallback', 'features', 'Modernizr' ], function (ensureCallb
         }
 
         this.elements.forEach(function (element) {
-            body.appendChild(element);
-        });
+            this.containerElement.appendChild(element);
+        }, this);
+
+        document.body.appendChild(this.containerElement);
 
         callback(null);
     };
 
     RenderContext.prototype.unload = function unload() {
+        this.containerElement.parentNode.removeChild(this.containerElement);
+
         this.elements.forEach(function (element) {
             if (element.parentNode) {
                 element.parentNode.removeChild(element);

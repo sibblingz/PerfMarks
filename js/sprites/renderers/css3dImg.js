@@ -1,4 +1,4 @@
-define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomContext', 'util/create' ], function (ensureCallback, features, Modernizr, DomContext, create) {
+define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomContext', 'util/create', 'sprites/container' ], function (ensureCallback, features, Modernizr, DomContext, create, container) {
     function RenderContext(sourceData, frameData) {
         if (!Modernizr.csstransforms3d) {
             return;
@@ -17,6 +17,8 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomC
                 return t.cssTransform3d;
             });
         });
+
+        this.containerElement = container();
     }
 
     RenderContext.prototype = create(DomContext.prototype);
@@ -29,11 +31,17 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomC
             return;
         }
 
+        document.body.appendChild(this.containerElement);
+
         callback(null);
     };
 
+    RenderContext.prototype.unload = function unload() {
+        this.containerElement.parentNode.removeChild(this.containerElement);
+        DomContext.prototype.unload.call(this);
+    };
+
     var transformStyleProperty = features.transformStyleProperty;
-    var body = document.body;
 
     RenderContext.prototype.processElements = function processElements(elements, transforms) {
         var count = transforms.length;
@@ -45,7 +53,7 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomC
 
             // Elements not in the DOM need to be added
             if (!element.parentNode) {
-                body.appendChild(element);
+                this.containerElement.appendChild(element);
             }
         }
     };
