@@ -64,8 +64,13 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/container' ], 
         var i;
         for (i = 0; i < count; ++i) {
             var element = elements[i];
+            var backgroundImage = 'url(' + frameInfo.sheetImage.src + ')';
+            if (element.style.backgroundImage !== backgroundImage) {
+                // Chrome has flickering issues without this check
+                element.style.backgroundImage = backgroundImage;
+            }
+
             element.style[transformStyleProperty] = transforms[i];
-            element.style.backgroundImage = 'url(' + frameInfo.sheetImage.src + ')';
             element.style.backgroundPosition = -frameInfo.x + 'px ' + -frameInfo.y + 'px';
             element.style.width = frameInfo.width + 'px';
             element.style.height = frameInfo.height + 'px';
