@@ -111,6 +111,7 @@ Object.keys = function keys(object) {
     }
 
     window.addEventListener('load', function () {
+        loaded = true;
         while (onLoadFunctions.length) {
             var fn = onLoadFunctions.shift();
             setTimeout(fn, 0);
