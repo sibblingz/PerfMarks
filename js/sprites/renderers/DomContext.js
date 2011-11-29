@@ -62,6 +62,7 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         var activeElements = this.activeElements;
         if (activeElements) {
             var count = activeElements.length;
+            var i;
             for (i = 0; i < count; ++i) {
                 var element = activeElements[i];
                 if (element.parentNode && elements.indexOf(element) < 0) {

@@ -13,7 +13,7 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
             fn(operationCount, function () {
                 ++operationCount;
 
-                endTime = Date.now();
+                var endTime = Date.now();
                 if (endTime - startTime >= maxTime) {
                     var score = operationCount / (endTime - startTime) * maxTime;
                     return callback(null, score);
