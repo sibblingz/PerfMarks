@@ -48,3 +48,27 @@ which has already played.
 ### Canvas text test
 
 The `Score` result shows how many renders could be made per 100 milliseconds.
+
+Code structure
+--------------
+
+Test cases are build into a recursive object structure.  Test cases are run
+through the test runner in `js/testRunner.js`.
+
+Test cases are displayed based upon the specification in `js/tables.js`.
+
+### Sprite tests
+
+Sprite tests are found under `js/sprites/`.
+
+There are three interleaved components:
+
+Sources
+    Each source represents some asset (e.g. a sprite sheet).  Maps to the
+    `Source type` result.
+Transformers
+    Transformers modify the source by applying affine or other transformations.
+    Maps to the `Test type` result.
+Renderers
+    Renderers displayed transformed sources using different techniques.  Maps
+    to the `Technique` result.
