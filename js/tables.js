@@ -12,7 +12,7 @@ define([ ], function () {
                     css3dImg: 'CSS3 3D transforms with <img>',
                     css2dBackground: 'CSS3 2D transforms with CSS backgrounds',
                     css3dBackground: 'CSS3 3D transforms with CSS backgrounds',
-                    cssWebkitMatrix: 'WebKitCSSMatrix transforms with <img>',
+                    cssMatrixImg: 'CSSMatrix transforms with <img>',
                     canvasDrawImageFullClear: 'Canvas drawImage, full clear',
                     canvasDrawImageFullClearAlign: 'Canvas drawImage, full clear, pixel aligned',
                     canvasDrawImagePartialClear: 'Canvas drawImage, partial clear',

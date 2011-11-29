@@ -1,8 +1,8 @@
 define([ 'util/ensureCallback', 'features', 'sprites/renderers/DomContext', 'util/create', 'sprites/container' ], function (ensureCallback, features, DomContext, create, container) {
-    var SUPPORTS_WEBKIT_MATRIX = typeof WebKitCSSMatrix === 'function';
+    var CSSMatrix = features.CSSMatrix;
 
     function RenderContext(sourceData, frameData) {
-        if (!SUPPORTS_WEBKIT_MATRIX) {
+        if (!CSSMatrix) {
             return;
         }
 
@@ -16,7 +16,7 @@ define([ 'util/ensureCallback', 'features', 'sprites/renderers/DomContext', 'uti
 
         this.transformData = frameData.map(function (objectTransforms) {
             return objectTransforms.map(function (t) {
-                var m = new WebKitCSSMatrix();
+                var m = new CSSMatrix();
                 m.a = t.matrix[0];
                 m.b = t.matrix[1];
                 m.c = t.matrix[3];
@@ -35,7 +35,7 @@ define([ 'util/ensureCallback', 'features', 'sprites/renderers/DomContext', 'uti
     RenderContext.prototype.load = function load(callback) {
         callback = ensureCallback(callback);
 
-        if (!SUPPORTS_WEBKIT_MATRIX) {
+        if (!CSSMatrix) {
             callback(new Error('Not supported'));
             return;
         }
@@ -50,12 +50,14 @@ define([ 'util/ensureCallback', 'features', 'sprites/renderers/DomContext', 'uti
         DomContext.prototype.unload.call(this);
     };
 
+    var transformStyleProperty = features.transformStyleProperty;
+
     RenderContext.prototype.processElements = function processElements(elements, transforms) {
         var count = transforms.length;
         var i;
         for (i = 0; i < count; ++i) {
             var element = elements[i];
-            element.style.WebkitTransform = transforms[i];
+            element.style[transformStyleProperty] = transforms[i];
             element.zIndex = i;
 
             // Elements not in the DOM need to be added

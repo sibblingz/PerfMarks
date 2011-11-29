@@ -5,13 +5,13 @@ define([ ], function () {
 
     var style = document.createElement('div').style;
 
-    function getStyleName(propertyNames) {
+    function getFirstIn(object, propertyNames) {
         return propertyNames.filter(function(name) {
-            return name in style;
+            return name in object;
         }).shift();
     }
 
-    var transformOriginStyleProperty = getStyleName([
+    var transformOriginStyleProperty = getFirstIn(style, [
         'transformOrigin',
         'WebkitTransformOrigin',
         'MozTransformOrigin',
@@ -19,13 +19,19 @@ define([ ], function () {
         'OTransformOrigin'
     ]);
 
-    var transformStyleProperty = getStyleName([
+    var transformStyleProperty = getFirstIn(style, [
         'transform',
         'WebkitTransform',
         'MozTransform',
         'msTransform',
         'OTransform'
     ]);
+
+    var CSSMatrix = window[getFirstIn(window, [
+        'CSSMatrix',
+        'WebKitCSSMatrix',
+        'WebkitCSSMatrix'
+    ])];
 
     // Firefox has a bug where it requires 'px' for translate matrix
     // elements (where it should accept plain numbers).
@@ -34,6 +40,7 @@ define([ ], function () {
     return {
         transformOriginStyleProperty: transformOriginStyleProperty,
         transformStyleProperty: transformStyleProperty,
-        matrixTranslateSuffix: matrixTranslateSuffix
+        matrixTranslateSuffix: matrixTranslateSuffix,
+        CSSMatrix: CSSMatrix
     }
 });

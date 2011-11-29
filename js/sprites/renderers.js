@@ -4,7 +4,7 @@
         'css3dImg',
         'css2dBackground',
         'css3dBackground',
-        'cssWebkitMatrix',
+        'cssMatrixImg',
         'canvasDrawImageFullClear',
         'canvasDrawImageFullClearAlign',
         'canvasDrawImagePartialClear',
