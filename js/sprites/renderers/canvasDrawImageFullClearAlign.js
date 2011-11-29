@@ -39,13 +39,12 @@ define([ 'util/ensureCallback', 'sprites/canvas' ], function (ensureCallback, ca
     };
 
     RenderContext.prototype.renderFrame = function renderFrame(frameIndex) {
-        var transforms = this.frameData[frameIndex];
-        var previousTransforms = this.previousTransforms;
-
         var context = this.context;
         var sourceData = this.sourceData;
 
+        var transforms = this.frameData[frameIndex];
         var count = transforms.length;
+        var i;
 
         // Reset view and transforms
         context.canvas.width = context.canvas.width;
@@ -55,8 +54,6 @@ define([ 'util/ensureCallback', 'sprites/canvas' ], function (ensureCallback, ca
             context.setTransform(1, 0, 0, 1, Math.floor(transform.x), Math.floor(transform.y));
             sourceData.drawToCanvas(context, 0, 0, frameIndex);
         }
-
-        this.previousTransforms = transforms;
     };
 
     return function (element, frameData) {
