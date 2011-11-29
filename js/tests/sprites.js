@@ -1,8 +1,8 @@
-define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync', 'util/benchAsync' ], function (sources, generators, renderers, ensureCallback, chainAsync, benchAsync) {
+define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/ensureCallback', 'util/chainAsync', 'util/benchAsync' ], function (sources, transformers, renderers, ensureCallback, chainAsync, benchAsync) {
     var FRAME_COUNT = 100;
     var TARGET_FRAMERATE = 30;
 
-    function generateFrames(generator, frameCount, objectCount) {
+    function generateFrames(transformer, frameCount, objectCount) {
         var frames = [ ];
 
         var i, j;
@@ -11,17 +11,17 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
             frames.push(frame);
 
             for (j = 0; j < objectCount; ++j) {
-                frame.push(generator(i, j));
+                frame.push(transformer(i, j));
             }
         }
 
         return frames;
     }
 
-    function runTest(sourceData, objectCount, generator, renderer, callback) {
+    function runTest(sourceData, objectCount, transformer, renderer, callback) {
         callback = ensureCallback(callback);
 
-        var frames = generateFrames(generator, FRAME_COUNT, objectCount);
+        var frames = generateFrames(transformer, FRAME_COUNT, objectCount);
         var renderContext = renderer(sourceData, frames);
 
         renderContext.load(function (err) {
@@ -52,7 +52,7 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
         });
     }
 
-    function runTestToFramerate(targetFramerate, sourceData, generator, renderer, callback) {
+    function runTestToFramerate(targetFramerate, sourceData, transformer, renderer, callback) {
         callback = ensureCallback(callback);
 
         // objectCount => { js, fps }
@@ -114,7 +114,7 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
                 return;
             }
 
-            runTest(sourceData, objectCount, generator, renderer, function testDone(err, results) {
+            runTest(sourceData, objectCount, transformer, renderer, function testDone(err, results) {
                 if (err) return callback(err);
 
                 fpsResults[objectCount] = results;
@@ -141,7 +141,7 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
         test(0);
     }
 
-    // source => renderer => generator => test
+    // source => renderer => transformer => test
     var tests = { };
 
     Object.keys(sources).forEach(function (sourceName) {
@@ -156,13 +156,13 @@ define([ 'sprites/sources', 'sprites/generators', 'sprites/renderers', 'util/ens
             var subSubTests = { };
             subTests[rendererName] = subSubTests;
 
-            Object.keys(generators).forEach(function (generatorName) {
-                var generator = generators[generatorName];
+            Object.keys(transformers).forEach(function (transformerName) {
+                var transformer = transformers[transformerName];
 
-                subSubTests[generatorName] = function spriteTest(callback) {
+                subSubTests[transformerName] = function spriteTest(callback) {
                     source(function (err, sourceData) {
                         if (err) return callback(err);
-                        runTestToFramerate(TARGET_FRAMERATE, sourceData, generator, renderer, callback);
+                        runTestToFramerate(TARGET_FRAMERATE, sourceData, transformer, renderer, callback);
                     });
                 };
             });

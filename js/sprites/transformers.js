@@ -7,7 +7,7 @@
 
     var filenames = [ ];
     names.forEach(function (name) {
-        filenames.push('sprites/generators/' + name);
+        filenames.push('sprites/transformers/' + name);
     });
 
     define(filenames, function (/* ... */) {
