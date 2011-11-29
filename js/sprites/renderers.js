@@ -6,7 +6,9 @@
         'css3dBackground',
         'cssWebkitMatrix',
         'canvasDrawImageFullClear',
-        'canvasDrawImageFullClearAlign'
+        'canvasDrawImageFullClearAlign',
+        'canvasDrawImagePartialClear',
+        'canvasDrawImagePartialClearAlign'
     ];
 
     var filenames = [ ];

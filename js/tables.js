@@ -15,6 +15,8 @@ define([ ], function () {
                     cssWebkitMatrix: 'WebKitCSSMatrix transforms with <img>',
                     canvasDrawImageFullClear: 'Canvas drawImage, full clear',
                     canvasDrawImageFullClearAlign: 'Canvas drawImage, full clear, pixel aligned',
+                    canvasDrawImagePartialClear: 'Canvas drawImage, partial clear',
+                    canvasDrawImagePartialClearAlign: 'Canvas drawImage, partial clear, pixel aligned',
 
                     $children: {
                         $title: 'Test type',
