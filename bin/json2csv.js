@@ -14,7 +14,7 @@ un.require([ 'fullReport' ], function (fullReport) {
     input.on('end', function () {
         var data = JSON.parse(jsonData);
         var csv = fullReport.csvReport(data.userData.results, data.userData.agentMetadata);
-        output.end(csv);
+        output.write(csv);
     });
     input.resume();
 });
