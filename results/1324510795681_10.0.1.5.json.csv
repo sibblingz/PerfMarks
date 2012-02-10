@@ -1,0 +1,116 @@
+userAgent,Mozilla/5.0 (Android; Linux armv7l; rv:9.0) Gecko/ Firefox/9.0 Fennec/9.0
+language,en-US
+name,asus ffox 9
+
+sprites,Static <img>,CSS3 2D transforms with <img>,Scale,45.1170731707317,11.058536585365854
+sprites,Static <img>,CSS3 2D transforms with <img>,Translate,27.695621301775148,6.304378698224852
+sprites,Static <img>,CSS3 2D transforms with <img>,Rotate,-21.35953701470943,6.839884253677358
+sprites,Static <img>,CSS3 3D transforms with <img>,Scale,N/A,N/A
+sprites,Static <img>,CSS3 3D transforms with <img>,Translate,N/A,N/A
+sprites,Static <img>,CSS3 3D transforms with <img>,Rotate,N/A,N/A
+sprites,Static <img>,CSS3 2D transforms with CSS backgrounds,Scale,89.71609081934848,8.055083909180652
+sprites,Static <img>,CSS3 2D transforms with CSS backgrounds,Translate,80.29198626634525,6.17700343341369
+sprites,Static <img>,CSS3 2D transforms with CSS backgrounds,Rotate,19.313953488372093,1.3430232558139537
+sprites,Static <img>,CSS3 3D transforms with CSS backgrounds,Scale,N/A,N/A
+sprites,Static <img>,CSS3 3D transforms with CSS backgrounds,Translate,N/A,N/A
+sprites,Static <img>,CSS3 3D transforms with CSS backgrounds,Rotate,N/A,N/A
+sprites,Static <img>,CSSMatrix transforms with <img>,Scale,N/A,N/A
+sprites,Static <img>,CSSMatrix transforms with <img>,Translate,N/A,N/A
+sprites,Static <img>,CSSMatrix transforms with <img>,Rotate,N/A,N/A
+sprites,Static <img>,Canvas drawImage, full clear,Scale,378.90971902349145,0.6476278212805158
+sprites,Static <img>,Canvas drawImage, full clear,Translate,838.4210526315788,1.2105263157894737
+sprites,Static <img>,Canvas drawImage, full clear,Rotate,908.5210387902697,1.3218277449046683
+sprites,Static <img>,Canvas drawImage, full clear, pixel aligned,Scale,N/A,N/A
+sprites,Static <img>,Canvas drawImage, full clear, pixel aligned,Translate,396.3064833005895,0.6700982318271121
+sprites,Static <img>,Canvas drawImage, full clear, pixel aligned,Rotate,N/A,N/A
+sprites,Static <img>,Canvas drawImage, partial clear,Scale,902.7103789836349,6.194982773471145
+sprites,Static <img>,Canvas drawImage, partial clear,Translate,905.4036363636363,1.8290909090909089
+sprites,Static <img>,Canvas drawImage, partial clear,Rotate,921.0652173913044,2.062582345191041
+sprites,Static <img>,Canvas drawImage, partial clear, pixel aligned,Scale,N/A,N/A
+sprites,Static <img>,Canvas drawImage, partial clear, pixel aligned,Translate,886.9571286141576,6.1364527108330185
+sprites,Static <img>,Canvas drawImage, partial clear, pixel aligned,Rotate,N/A,N/A
+sprites,Animated sprite sheet,CSS3 2D transforms with <img>,Scale,167.07185628742516,8.161676646706587
+sprites,Animated sprite sheet,CSS3 2D transforms with <img>,Translate,321.6002809196422,8.015007022991055
+sprites,Animated sprite sheet,CSS3 2D transforms with <img>,Rotate,303.01425,9.18225
+sprites,Animated sprite sheet,CSS3 3D transforms with <img>,Scale,N/A,N/A
+sprites,Animated sprite sheet,CSS3 3D transforms with <img>,Translate,N/A,N/A
+sprites,Animated sprite sheet,CSS3 3D transforms with <img>,Rotate,N/A,N/A
+sprites,Animated sprite sheet,CSS3 2D transforms with CSS backgrounds,Scale,70,6
+sprites,Animated sprite sheet,CSS3 2D transforms with CSS backgrounds,Translate,94.37320388349515,8.080776699029126
+sprites,Animated sprite sheet,CSS3 2D transforms with CSS backgrounds,Rotate,60.575260474395925,5.191753491465308
+sprites,Animated sprite sheet,CSS3 3D transforms with CSS backgrounds,Scale,N/A,N/A
+sprites,Animated sprite sheet,CSS3 3D transforms with CSS backgrounds,Translate,N/A,N/A
+sprites,Animated sprite sheet,CSS3 3D transforms with CSS backgrounds,Rotate,N/A,N/A
+sprites,Animated sprite sheet,CSSMatrix transforms with <img>,Scale,N/A,N/A
+sprites,Animated sprite sheet,CSSMatrix transforms with <img>,Translate,N/A,N/A
+sprites,Animated sprite sheet,CSSMatrix transforms with <img>,Rotate,N/A,N/A
+sprites,Animated sprite sheet,Canvas drawImage, full clear,Scale,289.70009930486594,0.5122712441481061
+sprites,Animated sprite sheet,Canvas drawImage, full clear,Translate,398.0195626242545,0.6766600397614314
+sprites,Animated sprite sheet,Canvas drawImage, full clear,Rotate,411.51999999999987,0.6799999999999998
+sprites,Animated sprite sheet,Canvas drawImage, full clear, pixel aligned,Scale,N/A,N/A
+sprites,Animated sprite sheet,Canvas drawImage, full clear, pixel aligned,Translate,386.8543076923079,3.2223076923076936
+sprites,Animated sprite sheet,Canvas drawImage, full clear, pixel aligned,Rotate,N/A,N/A
+sprites,Animated sprite sheet,Canvas drawImage, partial clear,Scale,900.1060843964672,33.03536146548904
+sprites,Animated sprite sheet,Canvas drawImage, partial clear,Translate,863.2744827586206,5.142482758620689
+sprites,Animated sprite sheet,Canvas drawImage, partial clear,Rotate,864.417495029821,3.093405086721053
+sprites,Animated sprite sheet,Canvas drawImage, partial clear, pixel aligned,Scale,N/A,N/A
+sprites,Animated sprite sheet,Canvas drawImage, partial clear, pixel aligned,Translate,907.7672833495618,36.02327166504382
+sprites,Animated sprite sheet,Canvas drawImage, partial clear, pixel aligned,Rotate,N/A,N/A
+
+text,sans-serif,8pt,Solid outline,26.47
+text,sans-serif,8pt,Solid fill,949.00
+text,sans-serif,8pt,Solid fill + outline,28.00
+text,sans-serif,10pt,Solid outline,28.71
+text,sans-serif,10pt,Solid fill,890.00
+text,sans-serif,10pt,Solid fill + outline,28.00
+text,sans-serif,12pt,Solid outline,25.00
+text,sans-serif,12pt,Solid fill,796.00
+text,sans-serif,12pt,Solid fill + outline,23.76
+text,sans-serif,14pt,Solid outline,23.53
+text,sans-serif,14pt,Solid fill,796.00
+text,sans-serif,14pt,Solid fill + outline,22.55
+text,sans-serif,16pt,Solid outline,22.33
+text,sans-serif,16pt,Solid fill,763.00
+text,sans-serif,16pt,Solid fill + outline,21.78
+text,sans-serif,24pt,Solid outline,18.81
+text,sans-serif,24pt,Solid fill,507.00
+text,sans-serif,24pt,Solid fill + outline,17.00
+text,serif,8pt,Solid outline,18.00
+text,serif,8pt,Solid fill,848.00
+text,serif,8pt,Solid fill + outline,14.56
+text,serif,10pt,Solid outline,18.45
+text,serif,10pt,Solid fill,845.00
+text,serif,10pt,Solid fill + outline,18.27
+text,serif,12pt,Solid outline,18.00
+text,serif,12pt,Solid fill,784.00
+text,serif,12pt,Solid fill + outline,17.48
+text,serif,14pt,Solid outline,17.00
+text,serif,14pt,Solid fill,678.00
+text,serif,14pt,Solid fill + outline,16.50
+text,serif,16pt,Solid outline,16.35
+text,serif,16pt,Solid fill,706.00
+text,serif,16pt,Solid fill + outline,15.69
+text,serif,24pt,Solid outline,14.42
+text,serif,24pt,Solid fill,466.00
+text,serif,24pt,Solid fill + outline,13.86
+text,monospace,8pt,Solid outline,40.59
+text,monospace,8pt,Solid fill,982.00
+text,monospace,8pt,Solid fill + outline,38.61
+text,monospace,10pt,Solid outline,37.25
+text,monospace,10pt,Solid fill,921.00
+text,monospace,10pt,Solid fill + outline,28.00
+text,monospace,12pt,Solid outline,31.00
+text,monospace,12pt,Solid fill,836.00
+text,monospace,12pt,Solid fill + outline,30.39
+text,monospace,14pt,Solid outline,29.00
+text,monospace,14pt,Solid fill,745.00
+text,monospace,14pt,Solid fill + outline,28.00
+text,monospace,16pt,Solid outline,27.45
+text,monospace,16pt,Solid fill,696.00
+text,monospace,16pt,Solid fill + outline,26.21
+text,monospace,24pt,Solid outline,21.57
+text,monospace,24pt,Solid fill,452.00
+text,monospace,24pt,Solid fill + outline,20.39
+
+audioLatency,Cold latency (ms),852
+audioLatency,Warm latency (ms),2

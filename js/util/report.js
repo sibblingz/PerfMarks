@@ -2,7 +2,7 @@ define([ ], function () {
     function serializeCsvCell(text) {
         if (typeof text === 'undefined' || text === null) {
             return serializeCsvCell('N/A');
-        } else if (/"/.test(text)) {
+        } else if (/[",]/.test(text)) {
             return '"' + text.replace(/"/g, '""') + '"';
         } else {
             return text;
