@@ -1,10 +1,21 @@
 define([ 'tables', 'util/report' ], function (tables, report) {
+    function val(id) {
+        var el = document.getElementById(id);
+        var customEl = document.getElementById(id + '-custom');
+
+        return el.value || (customEl && customEl.value);
+    }
+
     function getAgentMetadata() {
         if (typeof window !== 'undefined' && window) {
             return {
                 userAgent: window.navigator.userAgent,
                 language: window.navigator.language,
-                name: document.getElementById('ua-name').value
+                browser: val('ua-browser'),
+                name: val('ua-device-name'),
+                os: val('ua-os'),
+                type: val('ua-type'),
+                misc: val('ua-misc')
             };
         } else {
             return null;
