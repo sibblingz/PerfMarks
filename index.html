@@ -65,10 +65,127 @@ table th, table td {
 
 <h2>Performance Tests</h2>
 <p><button disabled id="start-performance-tests">Run Tests</button></p>
-<p>
-    <label>Your name <input type="text" id="ua-name"></label>
-    <button disabled id="upload-performance-tests">Run Tests and Upload Results</button>
+
+<p><label>Browser
+    <select id="ua-browser">
+        <!--<option value="">Other...</option>-->
+
+        <optgroup label="Webkit-based">
+            <option>Android Browser</option>
+            <option>Safari</option>
+            <option>Google Chrome</option>
+            <option>Other Webkit</option>
+        </optgroup>
+
+        <optgroup label="Other">
+            <option>Opera 11.x</option>
+            <option>Firefox 4+</option>
+            <option>Firefox 3.6</option>
+            <option>IE7</option>
+            <option>IE8</option>
+            <option>IE9</option>
+            <option>IE10</option>
+        </optgroup>
+    </select>
+</label>
+<!--<input type="text" id="ua-browser-custom">-->
 </p>
+
+<p><label>Device name
+    <select id="ua-device-name">
+        <!--<option value="">Other...</option>-->
+
+        <optgroup label="Android">
+            <option>Asus Eee Pad Transformer TF101</option>
+            <option>Motorola Droid RAZR XT910</option>
+            <option>Samsung Galaxy Nexus</option>
+            <option>Amazon Kindle Fire</option>
+            <option>Samsung Galaxy Tab</option>
+            <option>Samsung Droid Charge</option>
+            <option>T-Mobile G2X</option>
+            <option>Motorola XOOM</option>
+            <option>Motorola Droid X / Shadow</option>
+            <option>Motorola Droid 2</option>
+            <option>Motorola Droid</option>
+            <option>T-Mobile myTouch 4G Slide</option>
+            <option>Sony Ericsson Xperia PLAY</option>
+            <option>Samsung Galaxy S II (GT-I9100)</option>
+            <option>HTC EVO 4G</option>
+            <option>LG Optimus V</option>
+            <option>Samsung Galaxy Fit</option>
+        </optgroup>
+
+        <optgroup label="iOS">
+            <option>iPhone 3GS</option>
+            <option>iPhone 4</option>
+            <option>iPhone 4S</option>
+            <option>iPad</option>
+            <option>iPad 2</option>
+            <option>iPod Touch 4G</option>
+        </optgroup>
+
+        <optgroup label="Etc.">
+            <option>Blackberry Torch</option>
+            <option>Blackberry Playbook</option>
+            <option>HTC HD7S Windows Phone</option>
+        </optgroup>
+    </select>
+</label>
+<!--<input type="text" id="ua-device-name-custom">-->
+</p>
+
+<p><label>OS
+    <select id="ua-os">
+        <!--<option value="">Other...</option>-->
+
+        <optgroup label="Android">
+            <option>Android 2.2.2</option>
+            <option>Android 2.2.3</option>
+            <option>Android 2.3.3</option>
+            <option>Android 2.3.4</option>
+            <option>Android 2.3.5</option>
+            <option>Android 2.3.6</option>
+            <option>Android 3.2</option>
+            <option>Android 3.2.1</option>
+            <option>Android 3.2.4</option>
+            <option>Android 4.0.2</option>
+        </optgroup>
+
+        <optgroup label="iOS">
+            <option>iOS 4.2</option>
+            <option>iOS 4.3.2</option>
+            <option>iOS 4.3.3</option>
+            <option>iOS 4.3.5</option>
+            <option>iOS 5.0.1</option>
+
+        </optgroup>
+
+        <optgroup label="Other Mobile">
+            <option>Windows Phone 7.5</option>
+            <option>Blackberry Version 1.0.8.6067</option>
+            <option>Blackberry ???</option>
+        </optgroup>
+
+        <optgroup label="Desktop">
+            <option>Windows 7</option>
+        </optgroup>
+    </select>
+</label>
+<!--<input type="text" id="ua-os-custom">-->
+</p>
+
+<p><label>Device type
+    <select id="ua-type">
+        <option>Phone</option>
+        <option>Tablet</option>
+        <option>Laptop</option>
+        <option>Desktop</option>
+    </select>
+</p>
+
+<p><label>Other data <input type="text" id="ua-misc"></label></p>
+
+<p><button disabled id="upload-performance-tests">Run Tests and Upload Results</button></p>
 
 <ul>
 <li id="performance-sprites"><span class="name">Sprites</span>
