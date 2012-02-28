@@ -1,5 +1,17 @@
 define([ 'util/ensureCallback' ], function (ensureCallback) {
-    function DomContext(sourceData, frameData) {
+    function DomContext(sourceData, frameData, onLoad) {
+        var onLoadCalled = 0;
+        var onLoadExpected = 0;
+        var onLoadReady = false;
+
+        function checkOnLoad() {
+            if (onLoadReady) {
+                if (onLoadCalled === onLoadExpected) {
+                    onLoad();
+                }
+            }
+        }
+
         var sourcePool = [ ];
         var elementPool = [ ];
         var elements = [ ];
@@ -25,6 +37,15 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
                     element.style.position = 'absolute';
                     element.style.left = '0';
                     element.style.top = '0';
+
+                    if (element instanceof Image) {
+                        onLoadExpected += 1;
+                        element.onload = function () {
+                            onLoadCalled += 1;
+                            checkOnLoad();
+                        };
+                        element.src = element.src;
+                    }
                 }
 
                 sourceElements.push(img);
@@ -35,6 +56,9 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
             elementPool.push.apply(elementPool, frameElements);
             elements.push(frameElements);
         }
+
+        onLoadReady = true;
+        checkOnLoad();
 
         this.elements = elements;
         this.activeElements = null;

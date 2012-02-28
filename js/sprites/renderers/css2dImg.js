@@ -1,10 +1,11 @@
-define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomContext', 'util/create', 'sprites/container' ], function (ensureCallback, features, Modernizr, DomContext, create, container) {
+define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomContext', 'util/create', 'sprites/container', 'util/quickPromise' ], function (ensureCallback, features, Modernizr, DomContext, create, container, quickPromise) {
     function RenderContext(sourceData, frameData) {
         if (!Modernizr.csstransforms) {
             return;
         }
 
-        DomContext.call(this, sourceData, frameData);
+        this.loadPromise = quickPromise();
+        DomContext.call(this, sourceData, frameData, this.loadPromise.resolve);
 
         this.elements.forEach(function (frameElements) {
             frameElements.forEach(function (element) {
@@ -33,7 +34,9 @@ define([ 'util/ensureCallback', 'features', 'Modernizr', 'sprites/renderers/DomC
 
         document.body.appendChild(this.containerElement);
 
-        callback(null);
+        this.loadPromise.then(function () {
+            callback(null);
+        });
     };
 
     RenderContext.prototype.unload = function unload() {
