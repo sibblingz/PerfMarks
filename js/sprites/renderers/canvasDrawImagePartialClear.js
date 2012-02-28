@@ -26,6 +26,11 @@ define([ 'util/ensureCallback', 'sprites/canvas' ], function (ensureCallback, ca
         }
     };
 
+    RenderContext.prototype.clear = function clear() {
+        this.canvas.width = this.canvas.width;
+        this.previousTransforms = null;
+    };
+
     RenderContext.prototype.renderFrame = function renderFrame(frameIndex) {
         var context = this.context;
         var sourceData = this.sourceData;

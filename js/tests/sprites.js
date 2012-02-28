@@ -51,6 +51,10 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
             // We must run the tests twice
             // due to Android CSS background loading bugs.
             benchAsync(1000, frame, function (err, _) {
+                if (typeof renderContext.clear === 'function') {
+                    renderContext.clear();
+                }
+
                 benchAsync(1000, frame, done);
             });
         });
