@@ -1,14 +1,14 @@
 (function () {
     var names = [
-        'css2dImg',
-        'css3dImg',
-        'css2dBackground',
-        'css3dBackground',
-        'cssMatrixImg',
+        //'css2dImg',
+        //'css3dImg',
+        //'css2dBackground',
+        //'css3dBackground',
+        //'cssMatrixImg',
         'canvasDrawImageFullClear',
-        'canvasDrawImageFullClearAlign',
-        'canvasDrawImagePartialClear',
-        'canvasDrawImagePartialClearAlign'
+        //'canvasDrawImageFullClearAlign',
+        //'canvasDrawImagePartialClear',
+        //'canvasDrawImagePartialClearAlign'
     ];
 
     var filenames = [ ];
