@@ -65,6 +65,8 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
         // fps => objectCount
         var fpsLut = { };
 
+        var rawData = [ ];
+
         function done() {
             // Linearly interpolate framerate between two closest to
             // targetFramerate
@@ -101,7 +103,8 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
 
             callback(null, {
                 objectCount: objectCount,
-                js: jsTime
+                js: jsTime,
+                rawData: rawData
             });
         }
 
@@ -123,6 +126,7 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
 
                 fpsResults[objectCount] = results;
                 fpsLut[results.fps] = objectCount;
+                rawData.push([ objectCount, results ]);
 
                 if (results.fps < targetFramerate) {
                     // Hit too low (too many objects); go back and lower step
