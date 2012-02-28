@@ -16,8 +16,9 @@ var fileCount = 0;
 var THING = 'sprites';
 var PARAM = 'image';
 
-var INPUT_DIR = path.join(__dirname, '..', 'server', 'uploads');
-var OUTPUT_DIR = path.join(__dirname, '..', 'results');
+var RESULTS_DIR = path.join(__dirname, '..', 'results');
+var INPUT_DIR = path.join(RESULTS_DIR, 'raw');
+var OUTPUT_DIR = path.join(RESULTS_DIR);
 
 un.require( ['util/report'], function(report){
 	fs.readdir( INPUT_DIR, function(err, files){
