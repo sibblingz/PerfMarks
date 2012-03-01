@@ -63,13 +63,17 @@ Sprite tests are found under `js/sprites/`.
 
 There are three interleaved components:
 
-Sources
-    Each source represents some asset (e.g. a sprite sheet).  Maps to the
-    `Source type` result.
-Transformers
-    Transformers modify the source by applying affine or other transformations.
-    Maps to the `Test type` result.
-Renderers
-    Renderers displayed transformed sources using different techniques.  Maps
-    to the `Technique` result.  See `js/sprites/renderers/README.md` for
-    details.
+#### Sources
+
+Each source represents some asset (e.g. a sprite sheet).  Maps to the `Source
+type` result.
+
+#### Transformers
+
+Transformers modify the source by applying affine or other transformations.
+Maps to the `Test type` result.
+
+#### Renderers
+
+Renderers displayed transformed sources using different techniques.  Maps to the
+`Technique` result.  See `js/sprites/renderers/README.md` for details.

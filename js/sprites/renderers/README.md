@@ -1,8 +1,9 @@
 # Renderers
 
-css2dImg
-    Renders images using the HTML `<img>` element, and transforms them using the
-    CSS3 2D `transform` property.
+#### css2dImg
+
+Renders images using the HTML `<img>` element, and transforms them using the
+CSS3 2D `transform` property.
 
     for (var i = 0; i < sprites.length; ++i) {
         var element = elements[i];
@@ -12,9 +13,10 @@ css2dImg
         element.style.transform = sprite.cssTransform2d;
     }
 
-css3dImg
-    Renders images using the HTML `<img>` element, and transforms them using the
-    CSS3 3D `transform` property.
+#### css3dImg
+
+Renders images using the HTML `<img>` element, and transforms them using the
+CSS3 3D `transform` property.
 
     for (var i = 0; i < sprites.length; ++i) {
         var element = elements[i];
@@ -24,9 +26,10 @@ css3dImg
         element.style.transform = sprite.cssTransform3d;
     }
 
-css2dBackground
-    Renders images using the CSS2 `background-image` property, and transforms
-    them using the CSS3 2D `transform` property.
+#### css2dBackground
+
+Renders images using the CSS2 `background-image` property, and transforms them
+using the CSS3 2D `transform` property.
 
     for (var i = 0; i < sprites.length; ++i) {
         var element = elements[i];
@@ -38,9 +41,10 @@ css2dBackground
         element.style.height = sprite.height + 'px';
     }
 
-css3dBackground
-    Renders images using the CSS2 `background-image` property, and transforms
-    them using the CSS3 3D `transform` property.
+#### css3dBackground
+
+Renders images using the CSS2 `background-image` property, and transforms them
+using the CSS3 3D `transform` property.
 
     for (var i = 0; i < sprites.length; ++i) {
         var element = elements[i];
@@ -52,8 +56,9 @@ css3dBackground
         element.style.height = sprite.height + 'px';
     }
 
-canvasDrawImageFullClear
-    Clears the entire canvas, then calls drawImage for every sprite.
+#### canvasDrawImageFullClear
+
+Clears the entire canvas, then calls drawImage for every sprite.
 
         canvas.width = canvas.width;
         for (var i = 0; i < sprites.length; ++i) {
@@ -62,9 +67,10 @@ canvasDrawImageFullClear
             context.drawImage(sprites[i].img, 0, 0);
         }
 
-canvasDrawImageFullClearAlign
-    Clears the entire canvas, then calls drawImage for every sprite.  Pixel
-    alignment is enforced when blitting.
+#### canvasDrawImageFullClearAlign
+
+Clears the entire canvas, then calls drawImage for every sprite.  Pixel
+alignment is enforced when blitting.
 
         canvas.width = canvas.width;
         for (var i = 0; i < sprites.length; ++i) {
@@ -73,9 +79,10 @@ canvasDrawImageFullClearAlign
             context.drawImage(sprites[i].img, 0, 0);
         }
 
-canvasDrawImagePartialClear
-    Clears the parts of the canvas rendered to on the previous frame, then calls
-    drawImage for every sprite.
+#### canvasDrawImagePartialClear
+
+Clears the parts of the canvas rendered to on the previous frame, then calls
+drawImage for every sprite.
 
         for (var i = 0; i < lastSprites.length; ++i) {
             var m = lastSprites[i].matrix;
@@ -89,9 +96,10 @@ canvasDrawImagePartialClear
             context.drawImage(sprite[i].img, 0, 0);
         }
 
-canvasDrawImagePartialClearAlign
-    Clears the parts of the canvas rendered to on the previous frame, then calls
-    drawImage for every sprite.  Pixel alignment is enforced when blitting.
+#### canvasDrawImagePartialClearAlign
+
+Clears the parts of the canvas rendered to on the previous frame, then calls
+drawImage for every sprite.  Pixel alignment is enforced when blitting.
 
         for (var i = 0; i < lastSprites.length; ++i) {
             var transform = lastSprites[i].transform;
