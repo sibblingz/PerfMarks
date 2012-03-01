@@ -71,4 +71,5 @@ Transformers
     Maps to the `Test type` result.
 Renderers
     Renderers displayed transformed sources using different techniques.  Maps
-    to the `Technique` result.
+    to the `Technique` result.  See `js/sprites/renderers/README.md` for
+    details.
