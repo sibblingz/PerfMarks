@@ -60,9 +60,7 @@ un.require( ['util/report'], function(report){
 					var translate = spriteResults.translate;
 					var vals = [null];
 					if( translate ){
-						var val = actualObjectCountFromRawData( translate.rawData );
-//						vals = [translate.objectCount];
-						vals = [val];
+						vals = [translate.objectCount];
 						
 						if(!basicDataStructure[type]){
 							basicDataStructure[type] = {};
@@ -200,40 +198,6 @@ un.require( ['util/report'], function(report){
 		} );	
 	}
 });
-
-function actualObjectCountFromRawData( rawData ){
-	
-	console.log( "---" );
-	console.log( rawData.map( function(obj){ return [obj[0], obj[1].fps]; } ) );
-	
-	var mostObjectsAboveThirtyFPS = -1;
-	var minObjectsBelowThirtyFPS = -1;
-	for( var i = 0; i < rawData.length; i++ ){
-		var temp = rawData[i];
-		if( temp[1].fps > 30 ){
-			if( mostObjectsAboveThirtyFPS === -1 || temp[0] > rawData[mostObjectsAboveThirtyFPS][0] ){
-				mostObjectsAboveThirtyFPS = i;
-			}
-		}else{
-			if( minObjectsBelowThirtyFPS === -1 || temp[0] < rawData[minObjectsBelowThirtyFPS][0] ){
-				minObjectsBelowThirtyFPS = i;
-			}
-		}
-	}
-	if( mostObjectsAboveThirtyFPS === -1 || minObjectsBelowThirtyFPS === -1 ){
-		throw new Error("uh oh, no valid answer could be found");
-	}
-	var m = ( rawData[mostObjectsAboveThirtyFPS][0] - rawData[minObjectsBelowThirtyFPS][0] ) /
-			( rawData[mostObjectsAboveThirtyFPS][1].fps - rawData[minObjectsBelowThirtyFPS][1].fps );
-	var dx = 30 - rawData[minObjectsBelowThirtyFPS][1].fps;
-	var answer = rawData[minObjectsBelowThirtyFPS][0] + m*dx;
-	
-	console.log( "below 30 hz:", rawData[ minObjectsBelowThirtyFPS ][0] );
-	console.log( "above 30 hz:", rawData[ mostObjectsAboveThirtyFPS ][0] );
-	console.log( "answer:", answer );
-	
-	return answer;
-}
 
 function fpsForObjectCount( data, objectCount ){
 	for( var i = 0; i < data.length; i++ ){
