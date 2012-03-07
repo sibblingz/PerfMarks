@@ -3,19 +3,15 @@ Basic benchmarks to measure HTML5 performance and support for game related featu
 Running the Tests
 -----------------
 
-1. Get [Node.js][1] and [npm][2].
+1. Install [Node.js][1] (0.6.0+).
 2. Run in shell: `npm install`
-3. Open in browser: `http://localhost:3002/`
-4. If you wish to record the tests, enter your browser or device identifier
-   under "Your name".  (This string is uploaded to your server only; it does
-   not change the behaviour of any testing and is used purely in the output
-   JSON and CSV as metadata.)
-5. Click "Run Tests" (or "Run Tests and Upload Results").
-6. If you uploaded results, see `server/uploads/`.
-7. To output to CSV, run in shell: `node bin/json2csv.js server/uploads/xxx.json`
+3. Run in shell: `node server`
+4. Open in browser: `http://localhost:3002/`
+5. Configure parameters of the test run, if desired.
+6. Click "Run Tests".
+7. If you uploaded results, see the `server/uploads/` directory.
 
 [1]: http://nodejs.org/
-[2]: http://npmjs.org/
 
 Interpreting Results
 --------------------
