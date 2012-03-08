@@ -56,7 +56,7 @@ define([ 'util/report' ], function (report) {
                     if (slot) {
                         slot.textContent = value;
                     } else {
-                        console.warn('Could not find slot ' + name + ' for ' + domId, value);
+                        //console.warn('Could not find slot ' + name + ' for ' + domId, value);
                     }
                 }
             }
