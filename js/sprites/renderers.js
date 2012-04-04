@@ -4,7 +4,7 @@
         'css3dImg',
         'css2dBackground',
         'css3dBackground',
-        'cssMatrixImg',
+        //'cssMatrixImg',
         'canvasDrawImageFullClear',
         'canvasDrawImageFullClearAlign',
         'canvasDrawImagePartialClear',

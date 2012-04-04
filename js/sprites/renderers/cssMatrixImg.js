@@ -6,7 +6,8 @@ define([ 'util/ensureCallback', 'features', 'sprites/renderers/DomContext', 'uti
             return;
         }
 
-        DomContext.call(this, sourceData, frameData);
+        this.loadPromise = quickPromise();
+        DomContext.call(this, sourceData, frameData, this.loadPromise.resolve);
 
         this.elements.forEach(function (frameElements) {
             frameElements.forEach(function (element) {
@@ -42,7 +43,9 @@ define([ 'util/ensureCallback', 'features', 'sprites/renderers/DomContext', 'uti
 
         document.body.appendChild(this.containerElement);
 
-        callback(null);
+        this.loadPromise.then(function () {
+            callback(null);
+        });
     };
 
     RenderContext.prototype.unload = function unload() {

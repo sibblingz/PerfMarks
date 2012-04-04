@@ -4,7 +4,7 @@ define([ ], function () {
             sprites: {
                 $title: 'Source type',
                 image: 'Static <img>',
-                spriteSheet: 'Animated sprite sheet',
+                //spriteSheet: 'Animated sprite sheet',
 
                 $children: {
                     $title: 'Technique',
@@ -12,7 +12,7 @@ define([ ], function () {
                     css3dImg: 'CSS3 3D transforms with <img>',
                     css2dBackground: 'CSS3 2D transforms with CSS backgrounds',
                     css3dBackground: 'CSS3 3D transforms with CSS backgrounds',
-                    cssMatrixImg: 'CSSMatrix transforms with <img>',
+                    //cssMatrixImg: 'CSSMatrix transforms with <img>',
                     canvasDrawImageFullClear: 'Canvas drawImage, full clear',
                     canvasDrawImageFullClearAlign: 'Canvas drawImage, full clear, pixel aligned',
                     canvasDrawImagePartialClear: 'Canvas drawImage, partial clear',
@@ -32,8 +32,9 @@ define([ ], function () {
                         }
                     }
                 }
-            },
+            }
 
+            /*
             text: {
                 $title: 'Font family',
                 sans: 'sans-serif',
@@ -68,6 +69,7 @@ define([ ], function () {
                 coldLatency: 'Cold latency (ms)',
                 warmLatency: 'Warm latency (ms)'
             }
+            */
         }
     };
 });

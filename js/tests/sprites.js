@@ -48,7 +48,15 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
                 });
             }
 
-            return benchAsync(1000, frame, done);
+            // We must run the tests twice
+            // due to Android CSS background loading bugs.
+            benchAsync(1000, frame, function (err, _) {
+                if (typeof renderContext.clear === 'function') {
+                    renderContext.clear();
+                }
+
+                benchAsync(1000, frame, done);
+            });
         });
     }
 
@@ -58,46 +66,41 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
         // objectCount => { js, fps }
         var fpsResults = { };
 
-        // fps => objectCount
-        var fpsLut = { };
+        // (objectCount, { js, fps })
+        var rawData = [ ];
 
         function done() {
-            // Linearly interpolate framerate between two closest to
-            // targetFramerate
-
-            var fpsAbove = Infinity;
-            var objAbove = Infinity;
-
-            var fpsBelow = -Infinity;
-            var objBelow = -Infinity;
-
-            Object.keys(fpsLut).forEach(function (fps) {
-                var objectCount = fpsLut[fps];
-                fps = +fps; // Number cast
-
-                if (fps >= targetFramerate && fps < fpsAbove) {
-                    fpsAbove = fps;
-                    objAbove = objectCount;
+            var mostObjectsAboveThirtyFPS = -1;
+            var minObjectsBelowThirtyFPS = -1;
+            for (var i = 0; i < rawData.length; i++) {
+                var temp = rawData[i];
+                if (temp[1].fps > 30) {
+                    if (mostObjectsAboveThirtyFPS === -1 || temp[0] > rawData[mostObjectsAboveThirtyFPS][0]) {
+                        mostObjectsAboveThirtyFPS = i;
+                    }
+                } else {
+                    if (minObjectsBelowThirtyFPS === -1 || temp[0] < rawData[minObjectsBelowThirtyFPS][0]) {
+                        minObjectsBelowThirtyFPS = i;
+                    }
                 }
+            }
 
-                if (fps <= targetFramerate && fps > fpsBelow) {
-                    fpsBelow = fps;
-                    objBelow = objectCount;
-                }
-            });
-
-            if (!isFinite(fpsAbove) || !isFinite(fpsBelow)) {
+            if (mostObjectsAboveThirtyFPS === -1 || minObjectsBelowThirtyFPS === -1) {
                 callback(new Error("Bad test results"));
                 return;
             }
 
-            var x = (fpsAbove - fpsBelow) / fpsBelow;
-            var objectCount = x * objBelow + (1 - x) * objAbove;
-            var jsTime = x * fpsResults[objBelow].js + (1 - x) * fpsResults[objAbove].js;
+            var aboveData = rawData[mostObjectsAboveThirtyFPS];
+            var belowData = rawData[minObjectsBelowThirtyFPS];
+
+            var m = (aboveData[0] - belowData[0]) / (aboveData[1].fps - belowData[1].fps);
+            var objectCount = belowData[0] + m * (30 - belowData[1].fps);
+            var jsTime = belowData[0] + m * (30 - belowData[1].js);
 
             callback(null, {
                 objectCount: objectCount,
-                js: jsTime
+                js: jsTime,
+                rawData: rawData
             });
         }
 
@@ -118,7 +121,7 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
                 if (err) return callback(err);
 
                 fpsResults[objectCount] = results;
-                fpsLut[results.fps] = objectCount;
+                rawData.push([ objectCount, results ]);
 
                 if (results.fps < targetFramerate) {
                     // Hit too low (too many objects); go back and lower step
