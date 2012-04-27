@@ -95,7 +95,9 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
 
             var m = (aboveData[0] - belowData[0]) / (aboveData[1].fps - belowData[1].fps);
             var objectCount = belowData[0] + m * (30 - belowData[1].fps);
-            var jsTime = belowData[0] + m * (30 - belowData[1].js);
+
+            m = (aboveData[1].js - belowData[1].js) / (aboveData[1].fps - belowData[1].fps);
+            var jsTime = belowData[1].js + m * (30 - belowData[1].fps);
 
             callback(null, {
                 objectCount: objectCount,
