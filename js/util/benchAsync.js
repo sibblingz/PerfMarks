@@ -15,8 +15,9 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
 
                 var endTime = Date.now();
                 if (endTime - startTime >= maxTime) {
-                    var score = operationCount / (endTime - startTime) * maxTime;
-                    return callback(null, score);
+                    var elapsed = endTime - startTime;
+                    var score = operationCount / elapsed * maxTime;
+                    return callback(null, score, elapsed);
                 } else {
                     return next();
                 }

@@ -39,12 +39,13 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
                 jsTime += jsEndTime - jsStartTime;
             }
 
-            function done(err, score) {
+            function done(err, score, elapsed) {
                 renderContext.unload();
 
                 callback(null, {
                     js: jsTime,
-                    fps: score
+                    fps: score,
+                    elapsed: elapsed
                 });
             }
 
@@ -106,12 +107,6 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
             });
         }
 
-        // Run the test in steps of 25 (0, 25, 50, 75),
-        // then in steps of 5 (20, 25, 30, 35)
-        // then in steps of 1 (25, 26, 27, 28)
-        var objectCountSteps = [ 1, 5, 25 ];
-        var objectCountStep = objectCountSteps.pop();
-
         function test(objectCount) {
             if (Object.prototype.hasOwnProperty.call(fpsResults, objectCount)) {
                 // Already tested; let's say we're done here
@@ -124,26 +119,15 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
 
                 fpsResults[objectCount] = results;
                 rawData.push([ objectCount, results ]);
-
-                if (results.fps < targetFramerate) {
-                    // Hit too low (too many objects); go back and lower step
-                    // FIXME This may infloop (I think)
-                    var nextObjectCountStep = objectCountSteps.length ? objectCountSteps.pop() : 1;
-                    var newObjectCount = Math.max(0, objectCount - objectCountStep + nextObjectCountStep);
-                    objectCountStep = nextObjectCountStep;
-                    test(newObjectCount);
-                } else if (results.fps > targetFramerate) {
-                    // Hit too high (too few objects); keep going
-                    var newObjectCount = objectCount + objectCountStep;
-                    test(newObjectCount);
-                } else {
-                    // Hit it exactly!  (Creepy.)
-                    done();
-                }
+                
+                var timePerObjectEstimate = 1/(objectCount*results.fps);
+                var estimatedMaxObjects = Math.floor(1/(targetFramerate * timePerObjectEstimate));
+                
+                test(estimatedMaxObjects);
             });
         }
 
-        test(0);
+        test(10);
     }
 
     // source => renderer => transformer => test
