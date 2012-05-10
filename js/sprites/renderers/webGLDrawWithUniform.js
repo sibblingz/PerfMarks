@@ -94,9 +94,11 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
 
         gl.uniform2f(program.uni.size, img.width, img.height);
 
+        var uMatrix = program.uni.matrix;
+
         for (i = 0; i < count; ++i) {
             var m = transforms[i].matrix;
-            gl.uniformMatrix3fv(program.uni.matrix, false, m);
+            gl.uniformMatrix3fv(uMatrix, false, m);
             gl.drawArrays(gl.TRIANGLES, 0, 6);
         }
 
