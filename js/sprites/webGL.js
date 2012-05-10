@@ -62,6 +62,49 @@ define([ ], function () {
                 matrix: gl.getUniformLocation(prog, 'uMatrix')
             };
             return prog;
+        }),
+
+        batchSprite: makeShaderFactory([
+            '#define WIDTH ' + WIDTH.toFixed(1),
+            '#define HEIGHT ' + HEIGHT.toFixed(1),
+
+            'attribute vec2 aCoord;',
+            'attribute vec2 aTexCoord;',
+
+            'uniform vec2 uSize;',
+
+            'varying vec2 vTextureCoord;',
+
+            'mat4 projection = mat4(',
+                '2.0 / WIDTH, 0.0, 0.0, -1.0,',
+                '0.0, -2.0 / HEIGHT, 0.0, 1.0,',
+                '0.0, 0.0,-2.0,-0.0,',
+                '0.0, 0.0, 0.0, 1.0',
+            ');',
+
+            'void main(void) {',
+                'vec4 p = vec4(aCoord * uSize, 0.0, 1.0);',
+                'gl_Position = p * projection;',
+                'vTextureCoord = aTexCoord;',
+            '}'
+        ], [
+            'varying vec2 vTextureCoord;',
+
+            'uniform sampler2D uSampler;',
+
+            'void main(void) {',
+                'gl_FragColor = texture2D(uSampler, vTextureCoord.st);',
+            '}'
+        ], function (gl, prog) {
+            prog.attr = {
+                coord: gl.getAttribLocation(prog, 'aCoord'),
+                texCoord: gl.getAttribLocation(prog, 'aTexCoord')
+            };
+            prog.uni = {
+                sampler: gl.getUniformLocation(prog, 'uSampler'),
+                size: gl.getUniformLocation(prog, 'uSize')
+            };
+            return prog;
         })
     };
 

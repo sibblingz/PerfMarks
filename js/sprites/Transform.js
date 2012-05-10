@@ -37,5 +37,11 @@ define([ ], function () {
             '';
     }
 
+    Transform.prototype.transformPointInto = function transformPointInto(x, y, out, offset) {
+        var m = this.matrix;
+        out[offset + 0] = m[0] * x + m[3] * y + m[2];
+        out[offset + 1] = m[1] * x + m[4] * y + m[5];
+    };
+
     return Transform;
 });
