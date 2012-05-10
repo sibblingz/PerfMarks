@@ -12,17 +12,7 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
 
         this.context = gl;
 
-        var prog = webGL.createProgram(gl, webGL.shaders.sprite.vertex, webGL.shaders.sprite.fragment);
-        prog.attr = {
-            coord: gl.getAttribLocation(prog, 'aCoord')
-        };
-        prog.uni = {
-            sampler: gl.getUniformLocation(prog, 'uSampler'),
-            size: gl.getUniformLocation(prog, 'uSize'),
-            matrix: gl.getUniformLocation(prog, 'uMatrix')
-        };
-
-        this.program = prog;
+        this.program = webGL.shaders.sprite(gl);
 
         var buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);

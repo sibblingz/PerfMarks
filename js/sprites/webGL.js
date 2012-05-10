@@ -1,51 +1,68 @@
 define([ ], function () {
     var WIDTH = 512, HEIGHT = 512;
 
+    function makeShaderFactory(vertexLines, fragmentLines, callback) {
+        return function makeShader(gl) {
+            var prog = createProgram(
+                gl,
+                vertexLines.join('\n'),
+                fragmentLines.join('\n')
+            );
+            return callback(gl, prog);
+        };
+    }
+
     var shaders = {
-        sprite: {
-            vertex: [
-                '#define WIDTH ' + WIDTH.toFixed(1),
-                '#define HEIGHT ' + HEIGHT.toFixed(1),
+        sprite: makeShaderFactory([
+            '#define WIDTH ' + WIDTH.toFixed(1),
+            '#define HEIGHT ' + HEIGHT.toFixed(1),
 
-                'attribute vec2 aCoord;',
+            'attribute vec2 aCoord;',
 
-                'uniform vec2 uSize;',
-                'uniform mat3 uMatrix;',
+            'uniform vec2 uSize;',
+            'uniform mat3 uMatrix;',
 
-                'varying vec2 vTextureCoord;',
+            'varying vec2 vTextureCoord;',
 
-                'mat4 projection = mat4(',
-                    '2.0 / WIDTH, 0.0, 0.0, -1.0,',
-                    '0.0, -2.0 / HEIGHT, 0.0, 1.0,',
-                    '0.0, 0.0,-2.0,-0.0,',
-                    '0.0, 0.0, 0.0, 1.0',
-                ');',
+            'mat4 projection = mat4(',
+                '2.0 / WIDTH, 0.0, 0.0, -1.0,',
+                '0.0, -2.0 / HEIGHT, 0.0, 1.0,',
+                '0.0, 0.0,-2.0,-0.0,',
+                '0.0, 0.0, 0.0, 1.0',
+            ');',
 
-                // TODO Turn * mul + translate into one matrix multiply.
-                'mat2 mul = mat2(',
-                    'uMatrix[0][0], uMatrix[1][0],',
-                    'uMatrix[0][1], uMatrix[1][1]',
-                ');',
+            // TODO Turn * mul + translate into one matrix multiply.
+            'mat2 mul = mat2(',
+                'uMatrix[0][0], uMatrix[1][0],',
+                'uMatrix[0][1], uMatrix[1][1]',
+            ');',
 
-                'vec2 translate = vec2(uMatrix[0][2], uMatrix[1][2]);',
+            'vec2 translate = vec2(uMatrix[0][2], uMatrix[1][2]);',
 
-                'void main(void) {',
-                    'vec4 p = vec4(aCoord * uSize * mul + translate, 0.0, 1.0);',
-                    'gl_Position = p * projection;',
-                    'vTextureCoord = aCoord;',
-                '}'
-            ].join('\n'),
+            'void main(void) {',
+                'vec4 p = vec4(aCoord * uSize * mul + translate, 0.0, 1.0);',
+                'gl_Position = p * projection;',
+                'vTextureCoord = aCoord;',
+            '}'
+        ], [
+            'varying vec2 vTextureCoord;',
 
-            fragment: [
-                'varying vec2 vTextureCoord;',
+            'uniform sampler2D uSampler;',
 
-                'uniform sampler2D uSampler;',
-
-                'void main(void) {',
-                    'gl_FragColor = texture2D(uSampler, vTextureCoord.st);',
-                '}'
-            ].join('\n')
-        }
+            'void main(void) {',
+                'gl_FragColor = texture2D(uSampler, vTextureCoord.st);',
+            '}'
+        ], function (gl, prog) {
+            prog.attr = {
+                coord: gl.getAttribLocation(prog, 'aCoord')
+            };
+            prog.uni = {
+                sampler: gl.getUniformLocation(prog, 'uSampler'),
+                size: gl.getUniformLocation(prog, 'uSize'),
+                matrix: gl.getUniformLocation(prog, 'uMatrix')
+            };
+            return prog;
+        })
     };
 
     function reportGLError(gl, error) {
