@@ -1,49 +1,4 @@
 define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (ensureCallback, canvas, webGL) {
-    var WIDTH = 512, HEIGHT = 512;
-
-    var spriteVertexShader = [
-        '#define WIDTH ' + WIDTH.toFixed(1),
-        '#define HEIGHT ' + HEIGHT.toFixed(1),
-
-        'attribute vec2 aCoord;',
-
-        'uniform vec2 uSize;',
-        'uniform mat3 uMatrix;',
-
-        'varying vec2 vTextureCoord;',
-
-        'mat4 projection = mat4(',
-            '2.0 / WIDTH, 0.0, 0.0, -1.0,',
-            '0.0, -2.0 / HEIGHT, 0.0, 1.0,',
-            '0.0, 0.0,-2.0,-0.0,',
-            '0.0, 0.0, 0.0, 1.0',
-        ');',
-
-        // TODO Turn * mul + translate into one matrix multiply.
-        'mat2 mul = mat2(',
-            'uMatrix[0][0], uMatrix[1][0],',
-            'uMatrix[0][1], uMatrix[1][1]',
-        ');',
-
-        'vec2 translate = vec2(uMatrix[0][2], uMatrix[1][2]);',
-
-        'void main(void) {',
-            'vec4 p = vec4(aCoord * uSize * mul + translate, 0.0, 1.0);',
-            'gl_Position = p * projection;',
-            'vTextureCoord = aCoord;',
-        '}'
-    ].join('\n');
-
-    var spriteFragmentShader = [
-        'varying vec2 vTextureCoord;',
-
-        'uniform sampler2D uSampler;',
-
-        'void main(void) {',
-            'gl_FragColor = texture2D(uSampler, vTextureCoord.st);',
-        '}'
-    ].join('\n');
-
     function RenderContext(sourceData, frameData) {
         this.sourceData = sourceData;
         this.frameData = frameData;
@@ -57,7 +12,7 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
 
         this.context = gl;
 
-        var prog = webGL.createProgram(gl, spriteVertexShader, spriteFragmentShader);
+        var prog = webGL.createProgram(gl, webGL.shaders.sprite.vertex, webGL.shaders.sprite.fragment);
         prog.attr = {
             coord: gl.getAttribLocation(prog, 'aCoord')
         };

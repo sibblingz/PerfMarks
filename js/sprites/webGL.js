@@ -1,4 +1,53 @@
 define([ ], function () {
+    var WIDTH = 512, HEIGHT = 512;
+
+    var shaders = {
+        sprite: {
+            vertex: [
+                '#define WIDTH ' + WIDTH.toFixed(1),
+                '#define HEIGHT ' + HEIGHT.toFixed(1),
+
+                'attribute vec2 aCoord;',
+
+                'uniform vec2 uSize;',
+                'uniform mat3 uMatrix;',
+
+                'varying vec2 vTextureCoord;',
+
+                'mat4 projection = mat4(',
+                    '2.0 / WIDTH, 0.0, 0.0, -1.0,',
+                    '0.0, -2.0 / HEIGHT, 0.0, 1.0,',
+                    '0.0, 0.0,-2.0,-0.0,',
+                    '0.0, 0.0, 0.0, 1.0',
+                ');',
+
+                // TODO Turn * mul + translate into one matrix multiply.
+                'mat2 mul = mat2(',
+                    'uMatrix[0][0], uMatrix[1][0],',
+                    'uMatrix[0][1], uMatrix[1][1]',
+                ');',
+
+                'vec2 translate = vec2(uMatrix[0][2], uMatrix[1][2]);',
+
+                'void main(void) {',
+                    'vec4 p = vec4(aCoord * uSize * mul + translate, 0.0, 1.0);',
+                    'gl_Position = p * projection;',
+                    'vTextureCoord = aCoord;',
+                '}'
+            ].join('\n'),
+
+            fragment: [
+                'varying vec2 vTextureCoord;',
+
+                'uniform sampler2D uSampler;',
+
+                'void main(void) {',
+                    'gl_FragColor = texture2D(uSampler, vTextureCoord.st);',
+                '}'
+            ].join('\n')
+        }
+    };
+
     function reportGLError(gl, error) {
         // Find the error name
         for (var key in gl) {
@@ -144,6 +193,7 @@ define([ ], function () {
     }
 
     return {
+        shaders: shaders,
         wrapGL: wrapGL,
         makeTexture: makeTexture,
         createProgram: createProgram,
