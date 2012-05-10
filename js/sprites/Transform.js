@@ -20,7 +20,8 @@ define([ ], function () {
         var sin = Math.sin(this.rotation);
         this.matrix = [
             cos * this.scaleX, -sin, this.x,
-            sin, cos * this.scaleY, this.y
+            sin, cos * this.scaleY, this.y,
+            0, 0, 0  // Padding to pass as 3fv to WebGL
         ];
 
         this.cssTransform2d = '' +
