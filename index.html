@@ -70,6 +70,20 @@ table th, table td {
     <select id="ua-browser">
         <option value="">Other...</option>
 
+		<optgroup label="Desktop">
+            <option>Firefox 3.6</option>
+            <option>Firefox 4-8</option>
+            <option>Firefox 9</option>
+            <option>Firefox 10</option>
+            <option>Google Chrome</option>
+            <option>IE7</option>
+            <option>IE8</option>
+            <option>IE9</option>
+            <option>IE10</option>
+            <option>Opera 11.x</option>
+            <option>Safari 5.1.5</option>
+        </optgroup>
+
         <optgroup label="Mobile">
             <option>Android Browser</option>
             <option>Blackberry Webkit</option>
@@ -81,20 +95,6 @@ table th, table td {
             <option>Mobile Safari</option>
             <option>Opera Mobile</option>
         </optgroup>
-
-        <optgroup label="Desktop">
-            <option>Firefox 3.6</option>
-            <option>Firefox 4-8</option>
-            <option>Firefox 9</option>
-            <option>Firefox 10</option>
-            <option>Google Chrome</option>
-            <option>IE7</option>
-            <option>IE8</option>
-            <option>IE9</option>
-            <option>IE10</option>
-            <option>Opera 11.x</option>
-            <option>Safari</option>
-        </optgroup>
     </select>
 </label>
 <input type="text" id="ua-browser-custom">
@@ -104,6 +104,10 @@ table th, table td {
     <select id="ua-device-name">
         <option value="">Other...</option>
 
+		<optgroup label="Laptop Computers">
+			<option>Macbook Pro 2.8 Ghz Intel Core 2 Duo 8 GB 1067 MHz DDR3</option>
+		</optgroup>
+		
         <optgroup label="Android">
             <option>Amazon Kindle Fire</option>
             <option>Asus Eee Pad Transformer TF101</option>
@@ -148,6 +152,11 @@ table th, table td {
     <select id="ua-os">
         <option value="">Other...</option>
 
+		<optgroup label="Desktop">
+			<option>Mac OS X 10.6.8</option>
+            <option>Windows 7</option>
+        </optgroup>
+
         <optgroup label="Android">
             <option>Android 2.2.2</option>
             <option>Android 2.2.3</option>
@@ -177,10 +186,6 @@ table th, table td {
             <option>Blackberry Playbook 1.0.8.6067</option>
             <option>Blackberry 7.0.0.261</option>
         </optgroup>
-
-        <optgroup label="Desktop">
-            <option>Windows 7</option>
-        </optgroup>
     </select>
 </label>
 <input type="text" id="ua-os-custom">
@@ -188,9 +193,9 @@ table th, table td {
 
 <p><label>Device type
     <select id="ua-type">
+		<option>Laptop</option>
         <option>Phone</option>
         <option>Tablet</option>
-        <option>Laptop</option>
         <option>Desktop</option>
     </select>
 </p>
