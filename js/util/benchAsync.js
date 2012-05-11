@@ -21,12 +21,6 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
         //     ++rafTicks;
         //     raf(rafUpdate);
         // }
-
-        var rafTicks = 0;
-        window.addEventListener('touchmove', function (event) {
-            ++rafTicks;
-            event.preventDefault();
-        }, false);
         
         function next() {
             fn(operationCount, function () {
@@ -34,7 +28,6 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
 
                 var endTime = Date.now();
                 if (endTime - startTime >= maxTime) {
-                    console.log(rafTicks);
                     var elapsed = endTime - startTime;
                     var score = operationCount / elapsed * maxTime;
                     return callback(null, score, elapsed);
