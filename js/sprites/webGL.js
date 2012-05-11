@@ -71,8 +71,6 @@ define([ ], function () {
             'attribute vec2 aCoord;',
             'attribute vec2 aTexCoord;',
 
-            'uniform vec2 uSize;',
-
             'varying vec2 vTextureCoord;',
 
             'mat4 projection = mat4(',
@@ -83,7 +81,7 @@ define([ ], function () {
             ');',
 
             'void main(void) {',
-                'vec4 p = vec4(aCoord * uSize, 0.0, 1.0);',
+                'vec4 p = vec4(aCoord, 0.0, 1.0);',
                 'gl_Position = p * projection;',
                 'vTextureCoord = aTexCoord;',
             '}'
@@ -101,8 +99,7 @@ define([ ], function () {
                 texCoord: gl.getAttribLocation(prog, 'aTexCoord')
             };
             prog.uni = {
-                sampler: gl.getUniformLocation(prog, 'uSampler'),
-                size: gl.getUniformLocation(prog, 'uSize')
+                sampler: gl.getUniformLocation(prog, 'uSampler')
             };
             return prog;
         })

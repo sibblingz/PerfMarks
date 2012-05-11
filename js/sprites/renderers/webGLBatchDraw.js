@@ -1,6 +1,6 @@
 define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (ensureCallback, canvas, webGL) {
     var FLOATS_PER_VERT = 4;
-    var VERTS_PER_SPRITE = 5;
+    var VERTS_PER_SPRITE = 6;
     var FLOATS_PER_SPRITE = VERTS_PER_SPRITE * FLOATS_PER_VERT;
 
     function RenderContext(sourceData, frameData) {
@@ -27,9 +27,9 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
         //
         // sizeof(bufferUnit) == sizeof(float) * 4 == 16
         //
-        // There are five of these structs per sprite
-        // (one for each corner of the square,
-        // and one for a degenerate vertex).
+        // There are six of these structs per sprite
+        // (one for each corner of the each triangle,
+        // and two triangles per square).
 
         var maxSprites = Math.max.apply(Math, frameData.map(function (arr) {
             return arr.length;
@@ -46,23 +46,27 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
             bufferData[j + 1*4 + 3] = 0;
 
             // p2
-            bufferData[j + 2*4 + 2] = 1;
+            bufferData[j + 2*4 + 2] = 0;
             bufferData[j + 2*4 + 3] = 1;
 
             // p3
-            bufferData[j + 3*4 + 2] = 0;
-            bufferData[j + 3*4 + 3] = 1;
+            bufferData[j + 3*4 + 2] = 1;
+            bufferData[j + 3*4 + 3] = 0;
 
-            // p3 degenerate
+            // p4
             bufferData[j + 4*4 + 2] = 0;
             bufferData[j + 4*4 + 3] = 1;
+
+            // p5
+            bufferData[j + 5*4 + 2] = 1;
+            bufferData[j + 5*4 + 3] = 1;
         }
 
         this.bufferData = bufferData;
 
         var buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, bufferData, gl.STREAM_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, bufferData, gl.DYNAMIC_DRAW);
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
         this.buffer = buffer;
@@ -115,21 +119,23 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
             var t = transforms[i];
             t.transformPointInto(0,        0,         bufferData, j + 0);
             t.transformPointInto(imgWidth, 0,         bufferData, j + 4);
-            t.transformPointInto(imgWidth, imgHeight, bufferData, j + 8);
-            t.transformPointInto(0,        imgHeight, bufferData, j + 12);
+            t.transformPointInto(0,        imgHeight, bufferData, j + 8);
 
-            // Degenerate vertex
-            bufferData[j + 16] = bufferData[j + 12];
-            bufferData[j + 17] = bufferData[j + 13];
+            t.transformPointInto(imgWidth, 0,         bufferData, j + 12);
+            t.transformPointInto(0,        imgHeight, bufferData, j + 16);
+            t.transformPointInto(imgWidth, imgHeight, bufferData, j + 20);
         }
 
         this.clear();
 
         var program = this.program;
         gl.useProgram(program);
+
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-        gl.vertexAttribPointer(program.attr.coord, 2, gl.FLOAT, false, 4, 0);
-        gl.vertexAttribPointer(program.attr.texCoord, 2, gl.FLOAT, false, 4, 2);
+        gl.bufferData(gl.ARRAY_BUFFER, bufferData, gl.DYNAMIC_DRAW);
+
+        gl.vertexAttribPointer(program.attr.coord, 2, gl.FLOAT, false, 16, 0);
+        gl.vertexAttribPointer(program.attr.texCoord, 2, gl.FLOAT, false, 16, 8);
         gl.enableVertexAttribArray(program.attr.coord);
         gl.enableVertexAttribArray(program.attr.texCoord);
 
@@ -137,9 +143,7 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
         gl.bindTexture(gl.TEXTURE_2D, this.texture);
         gl.uniform1i(program.uni.sampler, 0);
 
-        gl.uniform2f(program.uni.size, imgWidth, imgHeight);
-
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, count * VERTS_PER_SPRITE);
+        gl.drawArrays(gl.TRIANGLES, 0, count * VERTS_PER_SPRITE);
 
         // Cleanup
         gl.disableVertexAttribArray(program.attr.coord);
