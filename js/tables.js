@@ -20,6 +20,7 @@ define([ ], function () {
                     canvasDrawImagePartialClearAlign: 'Canvas drawImage, partial clear, pixel aligned',
 
                     webGLDrawWithUniform: 'WebGL .drawArrays tris with uniforms',
+                    webGLBatchDraw: 'WebGL .drawArray tris with buffers',
 
                     $children: {
                         $title: 'Test type',
