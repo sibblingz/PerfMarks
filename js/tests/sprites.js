@@ -108,6 +108,7 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
         }
 
         function test(objectCount) {
+            objectCount = Math.min(1000, objectCount);
             if (Object.prototype.hasOwnProperty.call(fpsResults, objectCount)) {
                 // Already tested; let's say we're done here
                 done();
