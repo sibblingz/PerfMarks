@@ -5,10 +5,13 @@
         'css2dBackground',
         'css3dBackground',
         //'cssMatrixImg',
+
         'canvasDrawImageFullClear',
         'canvasDrawImageFullClearAlign',
         'canvasDrawImagePartialClear',
-        'canvasDrawImagePartialClearAlign'
+        'canvasDrawImagePartialClearAlign',
+
+        'webGLDrawWithUniform'
     ];
 
     var filenames = [ ];
