@@ -1,36 +1,40 @@
-define([ 'util/ensureCallback' ], function (ensureCallback) {
-    // Benchmarks fn until maxTime ms has passed.  Returns approximate number
-    // of operations performed in that time ('score').
+define([ 'util/ensureCallback', 'util/requestAnimationFrame' ], function (ensureCallback, requestAnimationFrame) {
+    // Benchmarks fn until maxTime ms has passed.  Returns an object:
+    //
+    // {
+    //   "score" -- approximate number of operations performed in that time ('score')
+    // }
     function benchAsync(maxTime, fn, callback) {
         if (typeof fn !== 'function') {
             throw new TypeError('Argument must be a function');
         }
 
-        var operationCount = 0;
         var startTime;
+
+        function rafUpdate() {
+            rafTimes.push(Date.now());
+            requestAnimationFrame(rafUpdate);
+        }
         
-        // var raf = window.requestAnimationFrame
-        //     || window.webkitRequestAnimationFrame
-        //     || window.mozRequestAnimationFrame
-        //     || window.oRequestAnimationFrame
-        //     || window.msRequestAnimationFrame;
-        // raf(rafUpdate);
-        // 
-        // var rafTicks = 0;
-        // function rafUpdate() {
-        //     ++rafTicks;
-        //     raf(rafUpdate);
-        // }
+        var timeoutTimes = [ ];
+        var rafTimes = [ ];
         
         function next() {
-            fn(operationCount, function () {
-                ++operationCount;
-
+            fn(timeoutTimes.length, function () {
                 var endTime = Date.now();
+                timeoutTimes.push(endTime);
+
                 if (endTime - startTime >= maxTime) {
                     var elapsed = endTime - startTime;
-                    var score = operationCount / elapsed * maxTime;
-                    return callback(null, score, elapsed);
+                    var timeoutScore = timeoutTimes.length / elapsed * maxTime;
+                    var rafScore = rafTimes.length / elapsed * maxTime;
+                    return callback(null, {
+                        startTime: startTime,
+                        timeoutScore: timeoutScore,
+                        rafScore: rafScore,
+                        score: requestAnimationFrame ? rafScore : timeoutScore,
+                        elapsed: elapsed
+                    });
                 } else {
                     return next();
                 }
@@ -39,6 +43,11 @@ define([ 'util/ensureCallback' ], function (ensureCallback) {
 
         setTimeout(function () {
             startTime = Date.now();
+
+            if (requestAnimationFrame) {
+                requestAnimationFrame(rafUpdate);
+            }
+
             next();
         }, 0);
     }

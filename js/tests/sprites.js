@@ -39,13 +39,13 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
                 jsTime += jsEndTime - jsStartTime;
             }
 
-            function done(err, score, elapsed) {
+            function done(err, results) {
                 renderContext.unload();
 
                 callback(null, {
                     js: jsTime,
-                    fps: score,
-                    elapsed: elapsed
+                    fps: results.score,
+                    raw: results
                 });
             }
 
