@@ -121,8 +121,12 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
             t.transformPointInto(imgWidth, 0,         bufferData, j + 4);
             t.transformPointInto(0,        imgHeight, bufferData, j + 8);
 
-            t.transformPointInto(imgWidth, 0,         bufferData, j + 12);
-            t.transformPointInto(0,        imgHeight, bufferData, j + 16);
+            bufferData[j + 12] = bufferData[j + 4];
+            bufferData[j + 13] = bufferData[j + 5];
+
+            bufferData[j + 16] = bufferData[j + 8];
+            bufferData[j + 17] = bufferData[j + 9];
+
             t.transformPointInto(imgWidth, imgHeight, bufferData, j + 20);
         }
 
