@@ -10,10 +10,36 @@ define([ 'util/ensureCallback', 'util/requestAnimationFrame' ], function (ensure
         }
 
         var startTime;
+        var running = true;
+        
+        function checkDone(endTime) {
+            if (!running) {
+                return;
+            }
+
+            if (endTime - startTime >= maxTime) {
+                running = false;
+
+                var elapsed = endTime - startTime;
+                var timeoutScore = timeoutTimes.length / elapsed * maxTime;
+                var rafScore = rafTimes.length / elapsed * maxTime;
+                return callback(null, {
+                    startTime: startTime,
+                    timeoutScore: timeoutScore,
+                    rafScore: rafScore,
+                    score: requestAnimationFrame ? rafScore : timeoutScore,
+                    elapsed: elapsed
+                });
+            }
+        }
 
         function rafUpdate() {
-            rafTimes.push(Date.now());
-            requestAnimationFrame(rafUpdate);
+            var now = Date.now();
+            rafTimes.push(now);
+            checkDone(now);
+            if (running) {
+                requestAnimationFrame(rafUpdate);
+            }
         }
         
         var timeoutTimes = [ ];
@@ -21,22 +47,11 @@ define([ 'util/ensureCallback', 'util/requestAnimationFrame' ], function (ensure
         
         function next() {
             fn(timeoutTimes.length, function () {
-                var endTime = Date.now();
-                timeoutTimes.push(endTime);
-
-                if (endTime - startTime >= maxTime) {
-                    var elapsed = endTime - startTime;
-                    var timeoutScore = timeoutTimes.length / elapsed * maxTime;
-                    var rafScore = rafTimes.length / elapsed * maxTime;
-                    return callback(null, {
-                        startTime: startTime,
-                        timeoutScore: timeoutScore,
-                        rafScore: rafScore,
-                        score: requestAnimationFrame ? rafScore : timeoutScore,
-                        elapsed: elapsed
-                    });
-                } else {
-                    return next();
+                var now = Date.now();
+                timeoutTimes.push(now);
+                checkDone(now);
+                if (running) {
+                    next();
                 }
             });
         }
