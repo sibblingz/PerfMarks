@@ -1,4 +1,11 @@
-define([ 'util/ensureCallback', 'util/requestAnimationFrame' ], function (ensureCallback, requestAnimationFrame) {
+define([ 'util/ensureCallback' ], function (ensureCallback) {
+    var requestAnimationFrame
+         = window.requestAnimationFrame
+        || window.webkitRequestAnimationFrame
+        || window.mozRequestAnimationFrame
+        || window.oRequestAnimationFrame
+        || window.msRequestAnimationFrame;
+
     // Benchmarks fn until maxTime ms has passed.  Returns an object:
     //
     // {
