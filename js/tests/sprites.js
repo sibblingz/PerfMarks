@@ -2,50 +2,42 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
     var FRAME_COUNT = 100;
     var TARGET_FRAMERATE = 30;
 
-    // objectIndex => frameIndex => transform
-    var generatedFrames = null;
-    var generatedTransformer = null;
-    
-    function generateFrames(transformer, objectCount) {
-        if (generatedTransformer !== transformer) {
-            generatedTransformer = transformer;
-            generatedFrames = [ ];
-        }
-
+    function frameGenerator(transformer, frameCount) {
         // objectIndex => frameIndex => transform
-        var objectDatas = generatedFrames;
-
-        // Generate frame data for new objects, if necessary
-        while (objectDatas.length < objectCount) {
-            var objectIndex = objectDatas.length;
+        var objectDatas = [ ];
+    
+        return function generateFrames(objectCount) {
+            // Generate frame data for new objects, if necessary
+            while (objectDatas.length < objectCount) {
+                var objectIndex = objectDatas.length;
             
-            // frameIndex => transform
-            var transforms = [ ];
-            objectDatas.push(transforms);
+                // frameIndex => transform
+                var transforms = [ ];
+                objectDatas.push(transforms);
 
-            for (var frameIndex = 0; frameIndex < FRAME_COUNT; ++frameIndex) {
-                transforms.push(transformer(frameIndex, objectIndex));
+                for (var frameIndex = 0; frameIndex < FRAME_COUNT; ++frameIndex) {
+                    transforms.push(transformer(frameIndex, objectIndex));
+                }
             }
-        }
         
-        // frameIndex => objectIndex => transform
-        // Transpose objectDatas, with `objectCount` transforms.
-        var frames = [ ];
-        for (var i = 0; i < FRAME_COUNT; ++i) {
-            var frame = [ ];
-            frames.push(frame);
-            for (var j = 0; j < objectCount; ++j) {
-                frame.push(objectDatas[j][i]);
+            // frameIndex => objectIndex => transform
+            // Transpose objectDatas, with `objectCount` transforms.
+            var frames = [ ];
+            for (var i = 0; i < FRAME_COUNT; ++i) {
+                var frame = [ ];
+                frames.push(frame);
+                for (var j = 0; j < objectCount; ++j) {
+                    frame.push(objectDatas[j][i]);
+                }
             }
-        }
 
-        return frames;
+            return frames;
+        };
     }
 
-    function runTest(sourceData, objectCount, transformer, renderer, callback) {
+    function runTest(sourceData, frames, renderer, callback) {
         callback = ensureCallback(callback);
 
-        var frames = generateFrames(transformer, objectCount);
         var renderContext = renderer(sourceData, frames);
 
         renderContext.load(function (err) {
@@ -94,6 +86,8 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
         // (objectCount, { js, fps })
         var rawData = [ ];
 
+        var generateFrames = frameGenerator(transformer, FRAME_COUNT);
+
         function done() {
             var mostObjectsAboveThirtyFPS = -1;
             var minObjectsBelowThirtyFPS = -1;
@@ -139,9 +133,10 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
                 return;
             }
 
-            runTest(sourceData, objectCount, transformer, renderer, function testDone(err, results) {
-                if (err) return callback(err);
+            var frames = generateFrames(objectCount);
 
+            runTest(sourceData, frames, renderer, function testDone(err, results) {
+                if (err) return callback(err);
                 fpsResults[objectCount] = results;
                 rawData.push([ objectCount, results ]);
                 
