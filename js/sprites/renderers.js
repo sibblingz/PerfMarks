@@ -11,7 +11,8 @@
         'canvasDrawImagePartialClear',
         'canvasDrawImagePartialClearAlign',
 
-        'webGLDrawWithUniform'
+        'webGLDrawWithUniform',
+        'webGLBatchDraw'
     ];
 
     var filenames = [ ];
