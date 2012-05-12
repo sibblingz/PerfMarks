@@ -2,16 +2,40 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
     var FRAME_COUNT = 100;
     var TARGET_FRAMERATE = 30;
 
-    function generateFrames(transformer, frameCount, objectCount) {
-        var frames = [ ];
+    // objectIndex => frameIndex => transform
+    var generatedFrames = null;
+    var generatedTransformer = null;
+    
+    function generateFrames(transformer, objectCount) {
+        if (generatedTransformer !== transformer) {
+            generatedTransformer = transformer;
+            generatedFrames = [ ];
+        }
 
-        var i, j;
-        for (i = 0; i < frameCount; ++i) {
+        // objectIndex => frameIndex => transform
+        var objectDatas = generatedFrames;
+
+        // Generate frame data for new objects, if necessary
+        while (objectDatas.length < objectCount) {
+            var objectIndex = objectDatas.length;
+            
+            // frameIndex => transform
+            var transforms = [ ];
+            objectDatas.push(transforms);
+
+            for (var frameIndex = 0; frameIndex < FRAME_COUNT; ++frameIndex) {
+                transforms.push(transformer(frameIndex, objectIndex));
+            }
+        }
+        
+        // frameIndex => objectIndex => transform
+        // Transpose objectDatas, with `objectCount` transforms.
+        var frames = [ ];
+        for (var i = 0; i < FRAME_COUNT; ++i) {
             var frame = [ ];
             frames.push(frame);
-
-            for (j = 0; j < objectCount; ++j) {
-                frame.push(transformer(i, j));
+            for (var j = 0; j < objectCount; ++j) {
+                frame.push(objectDatas[j][i]);
             }
         }
 
@@ -21,7 +45,7 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
     function runTest(sourceData, objectCount, transformer, renderer, callback) {
         callback = ensureCallback(callback);
 
-        var frames = generateFrames(transformer, FRAME_COUNT, objectCount);
+        var frames = generateFrames(transformer, objectCount);
         var renderContext = renderer(sourceData, frames);
 
         renderContext.load(function (err) {
