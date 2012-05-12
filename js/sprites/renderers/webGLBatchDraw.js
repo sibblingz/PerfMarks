@@ -87,6 +87,17 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
         if (this.canvas.parentNode) {
             this.canvas.parentNode.removeChild(this.canvas);
         }
+        
+        var gl = this.context;
+        gl.deleteTexture(this.texture);
+        this.texture = null;
+        
+        gl.deleteProgram(this.program);
+        this.program = null;
+        
+        gl.deleteBuffer(this.buffer);
+        this.buffer = null;
+        this.bufferData = null;
     };
 
     RenderContext.prototype.clear = function clear() {
