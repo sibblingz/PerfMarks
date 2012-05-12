@@ -5,11 +5,6 @@ define([ 'util/ensureCallback', 'sprites/canvas', 'sprites/webGL' ], function (e
 
         this.canvas = canvas();
         var gl = webGL.getContext(this.canvas);
-
-        if (true) {  // DEBUG
-            gl = webGL.wrapGL(gl);
-        }
-
         this.context = gl;
 
         this.program = webGL.shaders.sprite(gl);
