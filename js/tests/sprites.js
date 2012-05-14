@@ -125,9 +125,24 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
             });
         }
 
+        function nextNumberToTry(fpsResults, objectCount){
+            if( !Object.prototype.hasOwnProperty.call(fpsResults, objectCount) ){
+                return objectCount;
+            }
+            if( !Object.prototype.hasOwnProperty.call(fpsResults, objectCount+1) ){
+                return objectCount+1;
+            }
+            if( objectCount <= 1 ){
+                return -1;
+            }
+            if( !Object.prototype.hasOwnProperty.call(fpsResults, objectCount-1) ){
+                return objectCount-1;
+            }
+            return -1;
+        }
+
         function test(objectCount) {
-            if (Object.prototype.hasOwnProperty.call(fpsResults, objectCount)) {
-                // Already tested; let's say we're done here
+            if( objectCount === -1 ){
                 done();
                 return;
             }
@@ -142,7 +157,8 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
                 var timePerObjectEstimate = 1/(objectCount*results.fps);
                 var estimatedMaxObjects = Math.floor(1/(targetFramerate * timePerObjectEstimate));
                 
-                test(estimatedMaxObjects);
+                var nextObjectCount = nextNumberToTry(fpsResults, estimatedMaxObjects);
+                test(nextObjectCount);
             });
         }
 
