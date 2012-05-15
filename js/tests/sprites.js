@@ -126,22 +126,35 @@ define([ 'sprites/sources', 'sprites/transformers', 'sprites/renderers', 'util/e
         }
 
         function nextNumberToTry(fpsResults, objectCount){
-            if( !Object.prototype.hasOwnProperty.call(fpsResults, objectCount) ){
-                return objectCount;
+            var factor = 1;
+            while( objectCount > 100 ){
+                factor *= 10;
+                objectCount = Math.floor(objectCount / 10);
             }
-            if( !Object.prototype.hasOwnProperty.call(fpsResults, objectCount+1) ){
-                return objectCount+1;
+            
+            var testValue = objectCount*factor;
+            if( !Object.prototype.hasOwnProperty.call(fpsResults, testValue) ){
+                return testValue;
             }
-            if( objectCount <= 1 ){
+            
+            testValue = (objectCount+1)*factor;
+            if( !Object.prototype.hasOwnProperty.call(fpsResults, testValue) ){
+                return testValue;
+            }
+            
+            testValue = (objectCount-1)*factor;
+            if( testValue <= 1 ){
                 return -1;
             }
-            if( !Object.prototype.hasOwnProperty.call(fpsResults, objectCount-1) ){
-                return objectCount-1;
+            if( !Object.prototype.hasOwnProperty.call(fpsResults, testValue) ){
+                return testValue;
             }
+            
             return -1;
         }
 
         function test(objectCount) {
+            //alert(objectCount);
             if( objectCount === -1 ){
                 done();
                 return;
